@@ -64,7 +64,7 @@ layout: none
     /* Matrix rain canvas */
     .matrix{
       position: fixed; inset: 0; z-index: 1;
-      opacity: .10;               /* tweak 0.06–0.18 */
+      opacity: .06;               /* tweak 0.06–0.18 */
       pointer-events:none;
       mix-blend-mode: screen;
     }
@@ -198,55 +198,69 @@ layout: none
   </div>
 
   <!-- Matrix rain script -->
-  <script>
-  (function(){
-    const c = document.getElementById('matrix'); if(!c) return;
-    const ctx = c.getContext('2d');
-    const glyphs = '01ABCDEF';        // hex vibe
-    const color  = '#00ff88';
-    const shadow = '#00cc77';
-    let fontSize = 16, columns, drops, w, h, rafId;
+<script>
+(function(){
+  const c = document.getElementById('matrix'); if(!c) return;
+  const ctx = c.getContext('2d');
+  const glyphs = '01ABCDEF';
+  const color  = '#00ff88';
+  const shadow = '#00cc77';
 
-    function resize(){
-      const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-      w = c.clientWidth = window.innerWidth;
-      h = c.clientHeight = window.innerHeight;
-      c.width = Math.floor(w * dpr);
-      c.height = Math.floor(h * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      fontSize = Math.max(12, Math.min(22, Math.round(w / 80)));
-      ctx.font = fontSize + "px JetBrains Mono, ui-monospace, monospace";
-      columns = Math.floor(w / fontSize);
-      drops = new Array(columns).fill(Math.floor(Math.random()*(-20)));
+  let fontSize = 16, columns, drops, w, h, rafId;
+  let speed = 0.45; // ← LOWER = SLOWER (try 0.25–0.6)
+
+  function resize(){
+    const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    w = c.clientWidth = window.innerWidth;
+    h = c.clientHeight = window.innerHeight;
+    c.width  = Math.floor(w * dpr);
+    c.height = Math.floor(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    fontSize = Math.max(12, Math.min(22, Math.round(w / 80)));
+    ctx.font = `${fontSize}px JetBrains Mono, ui-monospace, monospace`;
+
+    columns = Math.floor(w / fontSize);
+    // start each column a random distance above the top (floats allowed)
+    drops = new Array(columns).fill(0).map(() => Math.random() * -20);
+  }
+
+  function tick(){
+    // trail fade (raise alpha for shorter trails; lower for longer)
+    ctx.fillStyle = 'rgba(0,0,0,0.08)';
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.fillStyle   = color;
+    ctx.shadowColor = shadow;
+    ctx.shadowBlur  = 8;
+
+    for(let i=0; i<columns; i++){
+      const ch = glyphs[Math.floor(Math.random() * glyphs.length)];
+      const x = i * fontSize;
+      const y = drops[i] * fontSize;
+
+      ctx.fillText(ch, x, y);
+
+      // reset occasionally once past the bottom
+      if (y > h && Math.random() > 0.985) drops[i] = 0;
+
+      // advance by speed (rows per frame)
+      drops[i] += speed;
     }
 
-    function tick(){
-      ctx.fillStyle = 'rgba(0,0,0,0.08)';
-      ctx.fillRect(0, 0, w, h);
-      ctx.fillStyle = color;
-      ctx.shadowColor = shadow;
-      ctx.shadowBlur = 8;
+    rafId = requestAnimationFrame(tick);
+  }
 
-      for(let i=0;i<columns;i++){
-        const ch = glyphs[Math.floor(Math.random()*glyphs.length)];
-        const x = i * fontSize;
-        const y = drops[i] * fontSize;
-        ctx.fillText(ch, x, y);
-        if(y > h && Math.random() > 0.975){ drops[i] = 0; }
-        drops[i]++;
-      }
-      rafId = requestAnimationFrame(tick);
-    }
+  resize(); tick();
+  addEventListener('resize', () => { cancelAnimationFrame(rafId); resize(); tick(); }, { passive: true });
 
-    resize(); tick();
-    addEventListener('resize', ()=>{ cancelAnimationFrame(rafId); resize(); tick(); }, {passive:true});
-
-    const mq = matchMedia('(prefers-reduced-motion: reduce)');
-    mq.addEventListener?.('change', e=>{
-      if(e.matches){ cancelAnimationFrame(rafId); ctx.clearRect(0,0,w,h); c.style.display='none'; }
-      else { c.style.display='block'; resize(); tick(); }
-    });
-  })();
-  </script>
+  // respect reduced motion at runtime
+  const mq = matchMedia('(prefers-reduced-motion: reduce)');
+  mq.addEventListener?.('change', e=>{
+    if(e.matches){ cancelAnimationFrame(rafId); ctx.clearRect(0,0,w,h); c.style.display='none'; }
+    else { c.style.display='block'; resize(); tick(); }
+  });
+})();
+</script>
 </body>
 </html>
