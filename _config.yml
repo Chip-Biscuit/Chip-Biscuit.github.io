@@ -1,5 +1,5 @@
-title: Chip — Reverse Engineering & CTFs
-description: Write-ups, tools, notes (flags redacted).
+title: "Chip — Reverse Engineering & CTFs"
+description: "Reverse engineering, CTF write-ups, tools, and research by Chip."
 theme: minima
 markdown: kramdown
 plugins:
