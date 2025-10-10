@@ -242,35 +242,27 @@ layout: none
 
       ctx.shadowColor = SHADOW;
 
-      for(let i=0; i<columns; i++){
-        const x = i * fontSize;
-        const y = drops[i] * fontSize;
+for (let i = 0; i < columns; i++) {
+  const x = i * fontSize;
+  const y = drops[i] * fontSize;
 
-        const ch = pickBit();
+  // TRAIL: always 0
+  ctx.fillStyle  = COLOR_TRAIL;
+  ctx.shadowBlur = 8;
+  ctx.fillText('0', x, y);
 
-        // trail
-        ctx.fillStyle  = COLOR_TRAIL;
-        ctx.shadowBlur = 8;
-        ctx.fillText(ch, x, y);
+  // HEAD: always 1 (brighter + subtle outline so it pops)
+  ctx.shadowBlur  = 12;
+  ctx.fillStyle   = COLOR_HEAD;
+  ctx.fillText('1', x, y - fontSize);
+  ctx.strokeStyle = STROKE_HEAD;   // keep if you like the thicker “1”
+  ctx.lineWidth   = 0.7;
+  ctx.strokeText('1', x, y - fontSize);
 
-        // brighter head one row ahead
-        ctx.shadowBlur = 12;
-        if (ch === '1') {
-          ctx.fillStyle  = COLOR_HEAD;
-          ctx.fillText('1', x, y - fontSize);
-          ctx.strokeStyle = STROKE_HEAD; // thicken the 1
-          ctx.lineWidth = 0.9;
-          ctx.strokeText('1', x, y - fontSize);
-        } else {
-          ctx.fillStyle = COLOR_HEAD;
-          ctx.fillText('0', x, y - fontSize);
-        }
+  if (y > h && Math.random() > 0.985) drops[i] = Math.random() * -20;
+  drops[i] += speeds[i];
+}
 
-        // reset off-screen with small chance to avoid hard edges
-        if (y > h && Math.random() > 0.985) drops[i] = Math.random() * -20;
-
-        drops[i] += speeds[i];
-      }
 
       rafId = requestAnimationFrame(tick);
     }
