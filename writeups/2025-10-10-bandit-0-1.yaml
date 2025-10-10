@@ -1,0 +1,12 @@
+
+5) **(Optional) Projects & About pages**  
+Create `projects.md`:
+```markdown
+---
+layout: page
+title: Projects
+permalink: /projects/
+---
+
+- Fix Enhancers — DirectX wrappers, patches, FOV tools  
+- Pointer/Trainer research (responsible, redacted)
