@@ -13,7 +13,7 @@ layout: none
   <!-- Canonical -->
   <link rel="canonical" href="https://chip-biscuit.github.io/" />
 
-  <!-- Open Graph / Twitter (clean Chip-only) -->
+  <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://chip-biscuit.github.io/" />
   <meta property="og:site_name" content="Chip" />
@@ -22,7 +22,6 @@ layout: none
   <meta property="og:image" content="https://chip-biscuit.github.io/assets/images/social-card.png?v=3" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Chip — Reverse Engineering & CTF Write-ups" />
   <meta name="twitter:description" content="Write-ups, DLL wrappers, Game specific patches, CTFS, Cyber security and research by Chip." />
@@ -64,7 +63,7 @@ layout: none
     /* Matrix rain canvas */
     .matrix{
       position: fixed; inset: 0; z-index: 1;
-      opacity: .06;               /* tweak 0.06–0.18 */
+      opacity: .10;               /* tweak 0.06–0.18 */
       pointer-events:none;
       mix-blend-mode: screen;
     }
@@ -197,70 +196,81 @@ layout: none
     </section>
   </div>
 
-  <!-- Matrix rain script -->
-<script>
-(function(){
-  const c = document.getElementById('matrix'); if(!c) return;
-  const ctx = c.getContext('2d');
-  const glyphs = '01ABCDEF';
-  const color  = '#00ff88';
-  const shadow = '#00cc77';
+  <!-- Matrix rain script (binary, long trail, smooth/slow) -->
+  <script>
+  (function(){
+    const c = document.getElementById('matrix'); if(!c) return;
+    const ctx = c.getContext('2d');
 
-  let fontSize = 16, columns, drops, w, h, rafId;
-  let speed = 0.05; // ← LOWER = SLOWER (try 0.25–0.6)
+    const GLYPHS = '01';           // binary only
+    const TRAIL_FADE = 0.06;       // lower = longer trails (0.05–0.10)
+    const BASE_SPEED = 0.22;       // rows per frame (lower = slower)
+    const VARIANCE = 0.10;         // per-column speed variance (0–0.2)
+    const COLOR_HEAD = '#bfffd9';  // brighter head
+    const COLOR_TRAIL = '#00ff88'; // trail color
+    const SHADOW = '#00cc77';
 
-  function resize(){
-    const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-    w = c.clientWidth = window.innerWidth;
-    h = c.clientHeight = window.innerHeight;
-    c.width  = Math.floor(w * dpr);
-    c.height = Math.floor(h * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    let fontSize = 16, columns, drops, speeds, w, h, rafId;
 
-    fontSize = Math.max(12, Math.min(22, Math.round(w / 80)));
-    ctx.font = `${fontSize}px JetBrains Mono, ui-monospace, monospace`;
+    function resize(){
+      const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      w = c.clientWidth = innerWidth;
+      h = c.clientHeight = innerHeight;
+      c.width  = Math.floor(w * dpr);
+      c.height = Math.floor(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    columns = Math.floor(w / fontSize);
-    // start each column a random distance above the top (floats allowed)
-    drops = new Array(columns).fill(0).map(() => Math.random() * -20);
-  }
+      fontSize = Math.max(12, Math.min(22, Math.round(w / 80)));
+      ctx.font = `${fontSize}px JetBrains Mono, ui-monospace, monospace`;
+      columns = Math.floor(w / fontSize);
 
-  function tick(){
-    // trail fade (raise alpha for shorter trails; lower for longer)
-    ctx.fillStyle = 'rgba(0,0,0,0.08)';
-    ctx.fillRect(0, 0, w, h);
-
-    ctx.fillStyle   = color;
-    ctx.shadowColor = shadow;
-    ctx.shadowBlur  = 8;
-
-    for(let i=0; i<columns; i++){
-      const ch = glyphs[Math.floor(Math.random() * glyphs.length)];
-      const x = i * fontSize;
-      const y = drops[i] * fontSize;
-
-      ctx.fillText(ch, x, y);
-
-      // reset occasionally once past the bottom
-      if (y > h && Math.random() > 0.985) drops[i] = 0;
-
-      // advance by speed (rows per frame)
-      drops[i] += speed;
+      // start each stream above the top; give each a slightly different speed
+      drops  = new Array(columns).fill(0).map(() => Math.random() * -20);
+      speeds = new Array(columns).fill(0).map(() =>
+        BASE_SPEED + (Math.random() * 2 - 1) * VARIANCE
+      );
     }
 
-    rafId = requestAnimationFrame(tick);
-  }
+    function tick(){
+      // trail fade
+      ctx.fillStyle = `rgba(0,0,0,${TRAIL_FADE})`;
+      ctx.fillRect(0, 0, w, h);
 
-  resize(); tick();
-  addEventListener('resize', () => { cancelAnimationFrame(rafId); resize(); tick(); }, { passive: true });
+      ctx.shadowColor = SHADOW;
 
-  // respect reduced motion at runtime
-  const mq = matchMedia('(prefers-reduced-motion: reduce)');
-  mq.addEventListener?.('change', e=>{
-    if(e.matches){ cancelAnimationFrame(rafId); ctx.clearRect(0,0,w,h); c.style.display='none'; }
-    else { c.style.display='block'; resize(); tick(); }
-  });
-})();
-</script>
+      for(let i=0; i<columns; i++){
+        const x = i * fontSize;
+        const y = drops[i] * fontSize;
+
+        // draw trail character
+        ctx.fillStyle  = COLOR_TRAIL;
+        ctx.shadowBlur = 8;
+        ctx.fillText(GLYPHS[Math.floor(Math.random()*GLYPHS.length)], x, y);
+
+        // draw a slightly brighter "head" just one row ahead (gives matrix feel)
+        ctx.fillStyle  = COLOR_HEAD;
+        ctx.shadowBlur = 12;
+        ctx.fillText(GLYPHS[Math.floor(Math.random()*GLYPHS.length)], x, y - fontSize);
+
+        // reset off-screen with small chance to avoid hard edges
+        if (y > h && Math.random() > 0.985) drops[i] = Math.random() * -20;
+
+        drops[i] += speeds[i];
+      }
+
+      rafId = requestAnimationFrame(tick);
+    }
+
+    resize(); tick();
+    addEventListener('resize', () => { cancelAnimationFrame(rafId); resize(); tick(); }, { passive: true });
+
+    // Respect reduced motion
+    const mq = matchMedia('(prefers-reduced-motion: reduce)');
+    mq.addEventListener?.('change', e=>{
+      if(e.matches){ cancelAnimationFrame(rafId); ctx.clearRect(0,0,w,h); c.style.display='none'; }
+      else { c.style.display='block'; resize(); tick(); }
+    });
+  })();
+  </script>
 </body>
 </html>
