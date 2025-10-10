@@ -203,8 +203,8 @@ layout: none
     const ctx = c.getContext('2d');
 
     const TRAIL_FADE = 0.06;       // lower = longer trails (0.05–0.10)
-    const BASE_SPEED = 0.18;       // rows per frame (lower = slower)
-    const VARIANCE   = 0.10;       // per-column speed variance (0–0.2)
+    const BASE_SPEED = 0.10;       // rows per frame (lower = slower)
+    const VARIANCE   = 0.2;       // per-column speed variance (0–0.2)
 
     const COLOR_TRAIL = '#00ff88';
     const COLOR_HEAD  = '#e6fff0';               // bright head
@@ -259,7 +259,7 @@ layout: none
           ctx.fillStyle  = COLOR_HEAD;
           ctx.fillText('1', x, y - fontSize);
           ctx.strokeStyle = STROKE_HEAD; // thicken the 1
-          ctx.lineWidth = 0.7;
+          ctx.lineWidth = 0.9;
           ctx.strokeText('1', x, y - fontSize);
         } else {
           ctx.fillStyle = COLOR_HEAD;
