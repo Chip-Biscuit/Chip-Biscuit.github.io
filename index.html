@@ -196,19 +196,20 @@ layout: none
     </section>
   </div>
 
-  <!-- Matrix rain script (binary, long trail, smooth/slow) -->
+  <!-- Matrix rain script (binary, long trail, slow; 1s made brighter & thicker) -->
   <script>
   (function(){
     const c = document.getElementById('matrix'); if(!c) return;
     const ctx = c.getContext('2d');
 
-    const GLYPHS = '01';           // binary only
-    const TRAIL_FADE = 0.10;       // lower = longer trails (0.05–0.10)
-    const BASE_SPEED = 0.10;       // rows per frame (lower = slower)
-    const VARIANCE = 0.08;         // per-column speed variance (0–0.2)
-    const COLOR_HEAD = '#bfffd9';  // brighter head
-    const COLOR_TRAIL = '#00ff88'; // trail color
-    const SHADOW = '#00cc77';
+    const TRAIL_FADE = 0.06;       // lower = longer trails (0.05–0.10)
+    const BASE_SPEED = 0.18;       // rows per frame (lower = slower)
+    const VARIANCE   = 0.10;       // per-column speed variance (0–0.2)
+
+    const COLOR_TRAIL = '#00ff88';
+    const COLOR_HEAD  = '#e6fff0';               // bright head
+    const STROKE_HEAD = 'rgba(191,255,217,0.6)'; // outline for "1"
+    const SHADOW      = '#00cc77';
 
     let fontSize = 16, columns, drops, speeds, w, h, rafId;
 
@@ -220,16 +221,19 @@ layout: none
       c.height = Math.floor(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      fontSize = Math.max(12, Math.min(22, Math.round(w / 80)));
-      ctx.font = `${fontSize}px JetBrains Mono, ui-monospace, monospace`;
-      columns = Math.floor(w / fontSize);
+      // heavier so "1" isn't a hairline
+      fontSize = Math.max(14, Math.min(22, Math.round(w / 80)));
+      ctx.font = `600 ${fontSize}px JetBrains Mono, ui-monospace, monospace`;
+      ctx.lineJoin = 'round';
 
-      // start each stream above the top; give each a slightly different speed
+      columns = Math.floor(w / fontSize);
       drops  = new Array(columns).fill(0).map(() => Math.random() * -20);
       speeds = new Array(columns).fill(0).map(() =>
         BASE_SPEED + (Math.random() * 2 - 1) * VARIANCE
       );
     }
+
+    function pickBit(){ return Math.random() < 0.5 ? '0' : '1'; } // true 50/50
 
     function tick(){
       // trail fade
@@ -242,15 +246,25 @@ layout: none
         const x = i * fontSize;
         const y = drops[i] * fontSize;
 
-        // draw trail character
+        const ch = pickBit();
+
+        // trail
         ctx.fillStyle  = COLOR_TRAIL;
         ctx.shadowBlur = 8;
-        ctx.fillText(GLYPHS[Math.floor(Math.random()*GLYPHS.length)], x, y);
+        ctx.fillText(ch, x, y);
 
-        // draw a slightly brighter "head" just one row ahead (gives matrix feel)
-        ctx.fillStyle  = COLOR_HEAD;
+        // brighter head one row ahead
         ctx.shadowBlur = 12;
-        ctx.fillText(GLYPHS[Math.floor(Math.random()*GLYPHS.length)], x, y - fontSize);
+        if (ch === '1') {
+          ctx.fillStyle  = COLOR_HEAD;
+          ctx.fillText('1', x, y - fontSize);
+          ctx.strokeStyle = STROKE_HEAD; // thicken the 1
+          ctx.lineWidth = 0.7;
+          ctx.strokeText('1', x, y - fontSize);
+        } else {
+          ctx.fillStyle = COLOR_HEAD;
+          ctx.fillText('0', x, y - fontSize);
+        }
 
         // reset off-screen with small chance to avoid hard edges
         if (y > h && Math.random() > 0.985) drops[i] = Math.random() * -20;
