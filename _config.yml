@@ -1,0 +1,11 @@
+title: Chip — Reverse Engineering & CTFs
+description: Write-ups, tools, notes (flags redacted).
+theme: minima
+markdown: kramdown
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+collections:
+  writeups:
+    output: true
+    permalink: /writeups/:name/
