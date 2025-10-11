@@ -105,8 +105,12 @@ layout: none
       content:attr(data-text); position:absolute; left:0; top:0; clip-path: inset(0 0 0 0); opacity:.6; filter:blur(.4px);
       animation:gl1 3.5s infinite steps(1), gl2 5s infinite steps(1);
     }
-    .title .glitch::before{ transform:translate(1px,0); color:var(--blue); mix-blend-mode:screen; }
-    .title .glitch::after{ transform:translate(-1px,0); color:var(--pink); mix-blend-mode:screen; }
+    /* disable the glitch/flicker on the headline */
+.title .glitch::before,
+.title .glitch::after{
+  content: none !important;
+  animation: none !important;
+}
     @keyframes gl1{ 0%,97%,100%{clip-path: inset(0 0 0 0)} 10%{clip-path: inset(0 0 75% 0)} 11%{clip-path: inset(60% 0 0 0)} 12%{clip-path: inset(0 0 0 0)} }
     @keyframes gl2{ 0%,96%,100%{transform:translate(0,0)} 50%{transform:translate(.6px,-.6px)} 51%{transform:translate(0,0)} }
 
