@@ -96,36 +96,46 @@ layout: none
       border:1px solid rgba(255,255,255,.08); padding:8px 12px; border-radius:999px; margin-bottom:14px;
     }
 
-    /* Title with animated gradient fill (no glitch) */
+    /* Title broken into two independently animated parts */
     .title{
       font-size:clamp(28px, 5vw, 56px);
       font-weight:900;
       line-height:1.05;
       margin:8px 0 12px;
       letter-spacing:.3px;
-
-      /* animated gradient */
-      background:
-        linear-gradient(90deg,
-          var(--blue) 0%,
-          var(--pink) 35%,
-          var(--violet) 50%,
-          var(--blue) 75%,
-          var(--pink) 100%);
-      background-size: 300% 300%;
+    }
+    .title .brand,
+    .title .tagline{
+      display:inline-block;
       -webkit-background-clip:text;
       background-clip:text;
       color:transparent;
-
-      animation: gradientShift 18s linear infinite;
+      background-size:300% 300%;
     }
-    @keyframes gradientShift{
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    .title .brand{
+      /* vibrant gradient — slow drift left→right */
+      background-image:linear-gradient(90deg, var(--blue), var(--pink), var(--violet), var(--blue));
+      animation: brandShift 20s linear infinite;
+      margin-right:.25em;
+    }
+    .title .sep{ opacity:.6; }
+    .title .tagline{
+      /* complementary gradient — reverse direction + different timing */
+      background-image:linear-gradient(90deg, var(--pink), var(--violet), var(--blue), var(--pink));
+      animation: taglineShift 28s linear infinite reverse;
+    }
+    @keyframes brandShift{
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+    @keyframes taglineShift{
+      0%{background-position:100% 50%}
+      50%{background-position:0% 50%}
+      100%{background-position:100% 50%}
     }
     @media (prefers-reduced-motion: reduce){
-      .title{ animation: none; }
+      .title .brand, .title .tagline{ animation:none; }
     }
 
     .lead{ color:#c9d4e5; font-weight:500; margin:10px 0 18px; }
@@ -170,8 +180,9 @@ layout: none
       <div class="card">
         <span class="label">REVERSE ENGINEERING · CTF · PROGRAMMING · CYBER SECURITY · ETHICAL HACKING</span>
         <h1 class="title">
-          <span>Chip Biscuit</span>
-          — breaking things to understand them.
+          <span class="brand">Chip Biscuit</span>
+          <span class="sep">—</span>
+          <span class="tagline">breaking things to understand them.</span>
         </h1>
 
         <p class="lead">
@@ -220,13 +231,13 @@ layout: none
     const c = document.getElementById('matrix'); if(!c) return;
     const ctx = c.getContext('2d');
 
-    const TRAIL_FADE = 0.10;       // lower = longer trails (0.05–0.10)
-    const BASE_SPEED = 0.08;       // rows per frame (lower = slower)
-    const VARIANCE   = 0.10;       // per-column speed variance (0–0.2)
+    const TRAIL_FADE = 0.10;
+    const BASE_SPEED = 0.08;
+    const VARIANCE   = 0.10;
 
     const COLOR_TRAIL = '#00ff88';
-    const COLOR_HEAD  = '#e6fff0';               // bright head
-    const STROKE_HEAD = 'rgba(191,255,217,0.6)'; // outline for "1"
+    const COLOR_HEAD  = '#e6fff0';
+    const STROKE_HEAD = 'rgba(191,255,217,0.6)';
     const SHADOW      = '#00cc77';
 
     let fontSize = 16, columns, drops, speeds, w, h, rafId;
@@ -239,7 +250,6 @@ layout: none
       c.height = Math.floor(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      // heavier so "1" isn't a hairline
       fontSize = Math.max(14, Math.min(22, Math.round(w / 80)));
       ctx.font = `600 ${fontSize}px JetBrains Mono, ui-monospace, monospace`;
       ctx.lineJoin = 'round';
@@ -252,7 +262,6 @@ layout: none
     }
 
     function tick(){
-      // trail fade
       ctx.fillStyle = `rgba(0,0,0,${TRAIL_FADE})`;
       ctx.fillRect(0, 0, w, h);
 
@@ -267,7 +276,7 @@ layout: none
         ctx.shadowBlur = 8;
         ctx.fillText('0', x, y);
 
-        // HEAD: always 1 (brighter + subtle outline so it pops)
+        // HEAD: always 1 (brighter + subtle outline)
         ctx.shadowBlur  = 12;
         ctx.fillStyle   = COLOR_HEAD;
         ctx.fillText('1', x, y - fontSize);
@@ -285,7 +294,6 @@ layout: none
     resize(); tick();
     addEventListener('resize', () => { cancelAnimationFrame(rafId); resize(); tick(); }, { passive: true });
 
-    // Respect reduced motion
     const mq = matchMedia('(prefers-reduced-motion: reduce)');
     mq.addEventListener?.('change', e=>{
       if(e.matches){ cancelAnimationFrame(rafId); ctx.clearRect(0,0,w,h); c.style.display='none'; }
