@@ -96,23 +96,37 @@ layout: none
       border:1px solid rgba(255,255,255,.08); padding:8px 12px; border-radius:999px; margin-bottom:14px;
     }
 
+    /* Title with animated gradient fill (no glitch) */
     .title{
-      font-size:clamp(28px, 5vw, 56px); font-weight:900; line-height:1.05; margin:8px 0 12px; letter-spacing:.3px;
-      background:linear-gradient(90deg, var(--blue), var(--pink)); -webkit-background-clip:text; background-clip:text; color:transparent; position:relative;
+      font-size:clamp(28px, 5vw, 56px);
+      font-weight:900;
+      line-height:1.05;
+      margin:8px 0 12px;
+      letter-spacing:.3px;
+
+      /* animated gradient */
+      background:
+        linear-gradient(90deg,
+          var(--blue) 0%,
+          var(--pink) 35%,
+          var(--violet) 50%,
+          var(--blue) 75%,
+          var(--pink) 100%);
+      background-size: 300% 300%;
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+
+      animation: gradientShift 18s linear infinite;
     }
-    .title .glitch{ position:relative; display:inline-block; }
-    .title .glitch::before,.title .glitch::after{
-      content:attr(data-text); position:absolute; left:0; top:0; clip-path: inset(0 0 0 0); opacity:.6; filter:blur(.4px);
-      animation:gl1 3.5s infinite steps(1), gl2 5s infinite steps(1);
+    @keyframes gradientShift{
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
-    /* disable the glitch/flicker on the headline */
-.title .glitch::before,
-.title .glitch::after{
-  content: none !important;
-  animation: none !important;
-}
-    @keyframes gl1{ 0%,97%,100%{clip-path: inset(0 0 0 0)} 10%{clip-path: inset(0 0 75% 0)} 11%{clip-path: inset(60% 0 0 0)} 12%{clip-path: inset(0 0 0 0)} }
-    @keyframes gl2{ 0%,96%,100%{transform:translate(0,0)} 50%{transform:translate(.6px,-.6px)} 51%{transform:translate(0,0)} }
+    @media (prefers-reduced-motion: reduce){
+      .title{ animation: none; }
+    }
 
     .lead{ color:#c9d4e5; font-weight:500; margin:10px 0 18px; }
     .mono{ font-family:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color:#c7d2fe; font-size:.95rem; }
@@ -156,9 +170,9 @@ layout: none
       <div class="card">
         <span class="label">REVERSE ENGINEERING · CTF · PROGRAMMING · CYBER SECURITY · ETHICAL HACKING</span>
         <h1 class="title">
-  <span>Chip Biscuit</span>
-  — breaking things to understand them.
-</h1
+          <span>Chip Biscuit</span>
+          — breaking things to understand them.
+        </h1>
 
         <p class="lead">
           DirectX wrappers, memory shenanigans, game patches, cyber security, reverse engineering and
@@ -237,8 +251,6 @@ layout: none
       );
     }
 
-    function pickBit(){ return Math.random() < 0.5 ? '0' : '1'; } // true 50/50
-
     function tick(){
       // trail fade
       ctx.fillStyle = `rgba(0,0,0,${TRAIL_FADE})`;
@@ -246,27 +258,26 @@ layout: none
 
       ctx.shadowColor = SHADOW;
 
-for (let i = 0; i < columns; i++) {
-  const x = i * fontSize;
-  const y = drops[i] * fontSize;
+      for (let i = 0; i < columns; i++) {
+        const x = i * fontSize;
+        const y = drops[i] * fontSize;
 
-  // TRAIL: always 0
-  ctx.fillStyle  = COLOR_TRAIL;
-  ctx.shadowBlur = 8;
-  ctx.fillText('0', x, y);
+        // TRAIL: always 0
+        ctx.fillStyle  = COLOR_TRAIL;
+        ctx.shadowBlur = 8;
+        ctx.fillText('0', x, y);
 
-  // HEAD: always 1 (brighter + subtle outline so it pops)
-  ctx.shadowBlur  = 12;
-  ctx.fillStyle   = COLOR_HEAD;
-  ctx.fillText('1', x, y - fontSize);
-  ctx.strokeStyle = STROKE_HEAD;   // keep if you like the thicker “1”
-  ctx.lineWidth   = 0.7;
-  ctx.strokeText('1', x, y - fontSize);
+        // HEAD: always 1 (brighter + subtle outline so it pops)
+        ctx.shadowBlur  = 12;
+        ctx.fillStyle   = COLOR_HEAD;
+        ctx.fillText('1', x, y - fontSize);
+        ctx.strokeStyle = STROKE_HEAD;
+        ctx.lineWidth   = 0.7;
+        ctx.strokeText('1', x, y - fontSize);
 
-  if (y > h && Math.random() > 0.985) drops[i] = Math.random() * -20;
-  drops[i] += speeds[i];
-}
-
+        if (y > h && Math.random() > 0.985) drops[i] = Math.random() * -20;
+        drops[i] += speeds[i];
+      }
 
       rafId = requestAnimationFrame(tick);
     }
