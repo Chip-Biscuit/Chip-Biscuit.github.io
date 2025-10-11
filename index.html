@@ -8,7 +8,8 @@ layout: none
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>Chip — Reverse Engineering, CTFs & Write-ups</title>
-  <meta name="description" content="Write-ups, DLL wrappers, Game specific patches, CTFS, Cyber security and research by Chip." />
+  <meta name="description" content="Write-ups, DLL wrappers, game-specific patches, CTFs, cyber security and research by Chip." />
+  <meta name="theme-color" content="#0b0b12" />
 
   <!-- Canonical -->
   <link rel="canonical" href="https://chip-biscuit.github.io/" />
@@ -18,14 +19,17 @@ layout: none
   <meta property="og:url" content="https://chip-biscuit.github.io/" />
   <meta property="og:site_name" content="Chip" />
   <meta property="og:title" content="Chip — Reverse Engineering & CTF Write-ups" />
-  <meta property="og:description" content="Write-ups, DLL wrappers, Game specific patches, CTFS, Cyber security and research by Chip." />
-  <meta property="og:image" content="https://chip-biscuit.github.io/assets/images/social-card.png?v=3" />
+  <meta property="og:description" content="Write-ups, DLL wrappers, game-specific patches, CTFs, cyber security and research by Chip." />
+  <meta property="og:image" content="https://chip-biscuit.github.io/assets/images/social-card-v4.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:alt" content="Chip — Reverse Engineering & CTF Write-ups" />
+
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Chip — Reverse Engineering & CTF Write-ups" />
-  <meta name="twitter:description" content="Write-ups, DLL wrappers, Game specific patches, CTFS, Cyber security and research by Chip." />
-  <meta name="twitter:image" content="https://chip-biscuit.github.io/assets/images/social-card.png?v=3" />
+  <meta name="twitter:description" content="Write-ups, DLL wrappers, game-specific patches, CTFs, cyber security and research by Chip." />
+  <meta name="twitter:image" content="https://chip-biscuit.github.io/assets/images/social-card-v4.png" />
 
   <!-- Icon + Fonts -->
   <link rel="icon" href="/assets/images/logo.png?v=2" />
@@ -36,7 +40,7 @@ layout: none
   <style>
     :root{
       --bg:#0b0b12; --bg2:#101020; --ink:#e2e8f0; --muted:#9aa4b2;
-      --pink:#ff00d4; --blue:#00eaff; --violet:#7a00ff; --card:#131325cc; --ring:0 0 35px;
+      --pink:#ff00d4; --blue:#00eaff; --violet:#7a00ff; --card:#131325cc;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -50,7 +54,7 @@ layout: none
       font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
       overflow-x:hidden;
     }
-    /* faint grid background */
+    /* faint grid */
     body::before{
       content:""; position:fixed; inset:0;
       background:
@@ -60,10 +64,10 @@ layout: none
       pointer-events:none; z-index:0;
     }
 
-    /* Matrix rain canvas */
+    /* Matrix canvas */
     .matrix{
       position: fixed; inset: 0; z-index: 1;
-      opacity: .10;               /* tweak 0.06–0.18 */
+      opacity: .10;
       pointer-events:none;
       mix-blend-mode: screen;
     }
@@ -96,7 +100,7 @@ layout: none
       border:1px solid rgba(255,255,255,.08); padding:8px 12px; border-radius:999px; margin-bottom:14px;
     }
 
-    /* Title broken into two independently animated parts */
+    /* Title: only .brand animates; .tagline is solid blue */
     .title{
       font-size:clamp(28px, 5vw, 56px);
       font-weight:900;
@@ -104,38 +108,32 @@ layout: none
       margin:8px 0 12px;
       letter-spacing:.3px;
     }
-    .title .brand,
-   .title .tagline{
-  background: none;          /* no gradient */
-  color: var(--blue);        /* solid blue text */
-  -webkit-background-clip: initial;
-  background-clip: initial;
-  animation: none;           /* no motion */
-}
     .title .brand{
-      /* vibrant gradient — slow drift left→right */
+      display:inline-block;
       background-image:linear-gradient(90deg, var(--blue), var(--pink), var(--violet), var(--blue));
-      animation: brandShift 20s linear infinite;
+      background-size:300% 300%;
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      animation:brandShift 20s linear infinite;
       margin-right:.25em;
     }
     .title .sep{ opacity:.6; }
     .title .tagline{
-      /* complementary gradient — reverse direction + different timing */
-      background-image:linear-gradient(90deg, var(--pink), var(--violet), var(--blue), var(--pink));
-      animation: taglineShift 28s linear infinite reverse;
+      display:inline-block;
+      color:var(--blue);
+      background:none;
+      -webkit-background-clip:initial;
+      background-clip:initial;
+      animation:none;
     }
     @keyframes brandShift{
       0%{background-position:0% 50%}
       50%{background-position:100% 50%}
       100%{background-position:0% 50%}
     }
-    @keyframes taglineShift{
-      0%{background-position:100% 50%}
-      50%{background-position:0% 50%}
-      100%{background-position:100% 50%}
-    }
     @media (prefers-reduced-motion: reduce){
-      .title .brand, .title .tagline{ animation:none; }
+      .title .brand{ animation:none; }
     }
 
     .lead{ color:#c9d4e5; font-weight:500; margin:10px 0 18px; }
@@ -225,7 +223,7 @@ layout: none
     </section>
   </div>
 
-  <!-- Matrix rain script (binary, long trail, slow; 1s made brighter & thicker) -->
+  <!-- Matrix rain script (binary: 0 trail + bright 1 head) -->
   <script>
   (function(){
     const c = document.getElementById('matrix'); if(!c) return;
@@ -271,12 +269,10 @@ layout: none
         const x = i * fontSize;
         const y = drops[i] * fontSize;
 
-        // TRAIL: always 0
         ctx.fillStyle  = COLOR_TRAIL;
         ctx.shadowBlur = 8;
         ctx.fillText('0', x, y);
 
-        // HEAD: always 1 (brighter + subtle outline)
         ctx.shadowBlur  = 12;
         ctx.fillStyle   = COLOR_HEAD;
         ctx.fillText('1', x, y - fontSize);
