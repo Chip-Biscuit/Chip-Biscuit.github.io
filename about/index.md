@@ -6,7 +6,7 @@ summary: "Reverse Engineering · CTFs · Game Fixes · Cyber Security"
 
 # 👋 About Me
 
-Hey, I’m **Chip Biscuit** — a reverse-engineering enthusiast, security tinkerer, and nostalgic game patch creator and much more.  
+Hey, I’m **Chip Biscuit** — a reverse-engineering enthusiast, security tinkerer, nostalgic game patch creator, and all-around tech explorer.  
 I spend my time breaking things (ethically) to understand them, restoring old Windows titles, writing Direct3D wrappers, and diving deep into system-level programming.
 
 ---
@@ -15,12 +15,12 @@ I spend my time breaking things (ethically) to understand them, restoring old Wi
 
 - Reverse engineering & low-level debugging  
 - DirectX (D3D8/9) compatibility wrappers  
-- Memory trainers & pointer chain tools  
+- Memory trainers & pointer-chain tools  
 - Steganography, cryptography & CTF challenges  
 - Cyber security and ethical hacking  
-- Building inclusive tech spaces like **ByteMatrix** & **FixEnhancers**
-- Developing tools, software, hardware, programs that get the job done.
-  
+- Building inclusive tech spaces like **ByteMatrix** & **FixEnhancers**  
+- Developing tools, software, and hardware that simply get the job done  
+
 ---
 
 ## 🌐 Projects & Communities
@@ -29,19 +29,39 @@ You can explore my work here:
 - [Write-ups](/writeups/) — challenges, labs, and OS setup guides  
 - [GitHub](https://github.com/Chip-Biscuit) — full source repositories  
 
+💬 **Discord:** `_._chip_._` — send a message or friend request and I’ll get back to you when I can.  
+
 ---
 
 ## 💡 Philosophy
 
 > “Breaking things to understand them.”  
->  
+>
 > Curiosity is the core of progress — every bug, crash, and hex dump is an opportunity to learn something new.
 
 ---
 
 ## 🛠️ Tech Stack & Tools
 
-`C++` · `Python` · `x86 Assembly` · `Direct3D` · `MinHook` · `IDA` · `Cheat Engine` · `Linux` · `Debuggers`
+**Core Languages**  
+`C` · `C++` · `x86 Assembly` · `Python`  
+
+**Operating Systems & Environments**  
+`Linux` (Kali · BlackArch · Mint) · `Windows` · `WSL` · `Command Line`  
+
+**Reverse Engineering & Debugging**  
+`IDA` · `Ghidra` · `Cheat Engine` · `x64dbg` · `OllyDbg` · `PE-bear`  
+
+**Game & System-Level Work**  
+`Direct3D 8/9` · `MinHook` · `DXWrapper` · `WinMM` · `DInput`  
+
+**Security & Forensics**  
+`Burp Suite` · `nmap` · `Wireshark` · `hashcat` · `Steganography Tools`  
+
+---
+
+<sub>*Focused on understanding systems from the ground up — from assembly to APIs, from binaries to behavior.*</sub>
+
 
 ---
 
@@ -51,4 +71,4 @@ I still love debugging early-2000s PC games just to bring them back to life — 
 
 ---
 
--- This website is currently WIP --
+*— This website is currently WIP —*
