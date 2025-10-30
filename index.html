@@ -7,31 +7,10 @@ layout: none
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Chip — Reverse Engineering, Reverse Engineering & Cyber Security</title>
-  <meta name="description" content="Write-ups, DLL wrappers, game-specific patches, CTFs, cyber security and research by Chip." />
+  <title>About Chip Biscuit — Reverse Engineering & Cyber Security</title>
+  <meta name="description" content="About Chip Biscuit — reverse engineering, cyber security, and tinkering." />
   <meta name="theme-color" content="#0b0b12" />
 
-  <!-- Canonical -->
-  <link rel="canonical" href="https://chip-biscuit.github.io/" />
-
-  <!-- Open Graph / Twitter -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://chip-biscuit.github.io/" />
-  <meta property="og:site_name" content="Chip" />
-  <meta property="og:title" content="Chip — Reverse Engineering & Cyber Security" />
-  <meta property="og:description" content="Write-ups, DLL wrappers, game-specific patches, CTFs, cyber security and research by Chip." />
-  <meta property="og:image" content="https://chip-biscuit.github.io/assets/images/social-card-v4.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:type" content="image/png" />
-  <meta property="og:image:alt" content="Chip — Reverse Engineering & Cyber Security" />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Chip — Reverse Engineering & Cyber Security" />
-  <meta name="twitter:description" content="Write-ups, DLL wrappers, game-specific patches, CTFs, cyber security and research by Chip." />
-  <meta name="twitter:image" content="https://chip-biscuit.github.io/assets/images/social-card-v4.png" />
-
-  <!-- Icon + Fonts -->
   <link rel="icon" href="/assets/images/logo.png?v=2" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,10 +30,9 @@ layout: none
         radial-gradient(1000px 700px at 90% 30%, rgba(255,0,212,.10), transparent 60%),
         linear-gradient(180deg, var(--bg), var(--bg2));
       color:var(--ink);
-      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
       overflow-x:hidden;
     }
-    /* faint grid */
     body::before{
       content:""; position:fixed; inset:0;
       background:
@@ -64,12 +42,9 @@ layout: none
       pointer-events:none; z-index:0;
     }
 
-    /* Matrix canvas */
     .matrix{
       position: fixed; inset: 0; z-index: 1;
-      opacity: .10;
-      pointer-events:none;
-      mix-blend-mode: screen;
+      opacity: .10; pointer-events:none; mix-blend-mode: screen;
     }
 
     .container{ position:relative; z-index:2; min-height:100dvh; display:grid; place-items:center; padding:48px 20px 72px; }
@@ -100,7 +75,6 @@ layout: none
       border:1px solid rgba(255,255,255,.08); padding:8px 12px; border-radius:999px; margin-bottom:14px;
     }
 
-    /* Title: only .brand animates; .tagline is solid blue */
     .title{
       font-size:clamp(28px, 5vw, 56px);
       font-weight:900;
@@ -119,27 +93,24 @@ layout: none
       margin-right:.25em;
     }
     .title .sep{ opacity:.6; }
-    .title .tagline{
-      display:inline-block;
-      color:var(--blue);
-      background:none;
-      -webkit-background-clip:initial;
-      background-clip:initial;
-      animation:none;
-    }
+    .title .tagline{ color:var(--blue); }
     @keyframes brandShift{
       0%{background-position:0% 50%}
       50%{background-position:100% 50%}
       100%{background-position:0% 50%}
     }
-    @media (prefers-reduced-motion: reduce){
-      .title .brand{ animation:none; }
-    }
 
     .lead{ color:#c9d4e5; font-weight:500; margin:10px 0 18px; }
     .mono{ font-family:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color:#c7d2fe; font-size:.95rem; }
+    .mono.pretty {
+      max-width: 68ch;
+      line-height: 1.7;
+      letter-spacing: 0.01em;
+      margin: 0 auto 1rem;
+      display: block;
+    }
 
-    .actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; }
+    .actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; justify-content:center; }
     .btn{
       --pad:12px 16px; display:inline-flex; align-items:center; gap:10px; padding:var(--pad); border-radius:12px;
       border:1px solid rgba(255,255,255,.14); text-decoration:none; color:var(--ink);
@@ -157,143 +128,87 @@ layout: none
     .footer{ margin-top:36px; text-align:center; color:var(--muted); font-size:.9rem; }
     .kbd{ padding:.1em .45em; border:1px solid rgba(255,255,255,.2); border-bottom-width:2px; border-radius:6px; font-size:.85em; background:rgba(255,255,255,.04); }
 
-    @media (prefers-reduced-motion: reduce){
-      .matrix{ display:none; }
-    }
+    @media (prefers-reduced-motion: reduce){ .matrix{ display:none; } }
   </style>
 </head>
 
 <body>
-  <!-- Matrix rain background -->
   <canvas id="matrix" class="matrix" aria-hidden="true"></canvas>
 
   <div class="container">
     <section class="hero">
-      <!-- LEFT: logo card -->
       <div class="card logoWrap logoGlow">
         <img class="logo" src="/assets/images/logo.png?v=2" alt="Chip logo">
       </div>
 
-      <!-- RIGHT: hero copy -->
       <div class="card">
-        <span class="label">REVERSE ENGINEERING · CTF · PROGRAMMING · CYBER SECURITY · ETHICAL HACKING · LOW LEVEL · DLLS · MUCH MORE </span>
+        <span class="label">ABOUT · REVERSE ENGINEERING · CTF · PROGRAMMING · CYBER SECURITY</span>
         <h1 class="title">
-          <span class="brand">Chip Biscuit</span>
+          <span class="brand">About Chip Biscuit</span>
           <span class="sep">—</span>
           <span class="tagline">breaking things to understand them.</span>
         </h1>
 
-      /* nicer paragraph width + rhythm for mono blurb */
-.mono.pretty {
-  max-width: 68ch;       /* great reading measure */
-  line-height: 1.7;
-  letter-spacing: 0.01em;
-  margin: 0 auto 1rem;   /* center it */
-  display: block;
-}
-     <p class="mono pretty">
-  Hey, I’m Chip. I’ve always been fascinated by how things work—whether it’s technology, science, computers, or electricity.
-  Taking things apart to truly understand their inner workings isn’t just a hobby for me—it’s who I am.
-</p>
-<p class="mono pretty">
-  Here you’ll find my write-ups on <strong>reverse engineering</strong>, <strong>tinkering</strong>, <strong>CTFs</strong>, <strong>OS setups</strong>, and everything in between.
-  Join me on a journey through the world of Chip—where curiosity, creativity, and code collide.
-</p>
+        <p class="mono pretty">
+          Hey, I’m Chip. I’ve always been fascinated by how things work—whether it’s technology, science, computers, or electricity.
+          Taking things apart to truly understand their inner workings isn’t just a hobby for me—it’s who I am.
+        </p>
+
+        <p class="mono pretty">
+          Here you’ll find my write-ups on <strong>reverse engineering</strong>, <strong>tinkering</strong>, <strong>CTFs</strong>, <strong>OS setups</strong>, and everything in between.
+          Join me on a journey through the world of Chip—where curiosity, creativity, and code collide.
+        </p>
 
         <div class="actions">
-          <a class="btn primary" href="/writeups/">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M4 19a2 2 0 0 0 2 2h13" stroke="currentColor" stroke-width="1.6"/><path d="M20 21V5a2 2 0 0 0-2-2H7a3 3 0 0 0-3 3v13" stroke="currentColor" stroke-width="1.6"/><path d="M7 7h9" stroke="currentColor" stroke-width="1.6"/></svg>
-            Write-ups
-          </a>
-          <a class="btn" href="https://github.com/Chip-Biscuit" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.79 23.4c.6.1.82-.26.82-.58v-2.02c-3.34.73-4.04-1.6-4.04-1.6-.55-1.4-1.35-1.77-1.35-1.77-1.1-.75.08-.73.08-.73 1.22.09 1.86 1.25 1.86 1.25 1.08 1.85 2.84 1.31 3.53 1 .11-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.16 0 0 1.01-.32 3.32 1.23a11.5 11.5 0 0 1 6.04 0c2.3-1.55 3.31-1.23 3.31-1.23.67 1.64.25 2.86.13 3.16.77.84 1.23 1.91 1.23 3.22 0 4.61-2.82 5.62-5.5 5.92.43.37.82 1.1.82 2.23v3.3c0 .32.21.7.83.58A12 12 0 0 0 12 .5Z"/></svg>
-            GitHub
-          </a>
-          <a class="btn" href="/about/">
-            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="7.5" r="3.5" stroke="currentColor" stroke-width="1.6"/><path d="M4 20a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="1.6"/></svg>
-            About
-          </a>
+          <a class="btn primary" href="/">← Home</a>
+          <a class="btn" href="/writeups/">Write-ups</a>
+          <a class="btn" href="https://github.com/Chip-Biscuit" target="_blank" rel="noopener">GitHub</a>
         </div>
 
         <p class="footer">
-          Tip: press <span class="kbd">/</span> to search on GitHub — or jump to <a href="/writeups/">Write-ups</a>.
+          Thanks for visiting — and remember: <em>breaking things is how we learn.</em>
         </p>
       </div>
     </section>
   </div>
 
-  <!-- Matrix rain script (binary: 0 trail + bright 1 head) -->
+  <!-- Matrix rain -->
   <script>
   (function(){
     const c = document.getElementById('matrix'); if(!c) return;
     const ctx = c.getContext('2d');
-
-    const TRAIL_FADE = 0.10;
-    const BASE_SPEED = 0.08;
-    const VARIANCE   = 0.10;
-
-    const COLOR_TRAIL = '#00ff88';
-    const COLOR_HEAD  = '#e6fff0';
-    const STROKE_HEAD = 'rgba(191,255,217,0.6)';
-    const SHADOW      = '#00cc77';
-
-    let fontSize = 16, columns, drops, speeds, w, h, rafId;
+    const TRAIL_FADE=0.10, BASE_SPEED=0.08, VARIANCE=0.10;
+    const COLOR_TRAIL='#00ff88', COLOR_HEAD='#e6fff0', STROKE_HEAD='rgba(191,255,217,0.6)', SHADOW='#00cc77';
+    let fontSize=16, columns, drops, speeds, w, h, rafId;
 
     function resize(){
-      const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-      w = c.clientWidth = innerWidth;
-      h = c.clientHeight = innerHeight;
-      c.width  = Math.floor(w * dpr);
-      c.height = Math.floor(h * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      fontSize = Math.max(14, Math.min(22, Math.round(w / 80)));
-      ctx.font = `600 ${fontSize}px JetBrains Mono, ui-monospace, monospace`;
-      ctx.lineJoin = 'round';
-
-      columns = Math.floor(w / fontSize);
-      drops  = new Array(columns).fill(0).map(() => Math.random() * -20);
-      speeds = new Array(columns).fill(0).map(() =>
-        BASE_SPEED + (Math.random() * 2 - 1) * VARIANCE
-      );
+      const dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1));
+      w=c.clientWidth=innerWidth; h=c.clientHeight=innerHeight;
+      c.width=Math.floor(w*dpr); c.height=Math.floor(h*dpr);
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      fontSize=Math.max(14,Math.min(22,Math.round(w/80)));
+      ctx.font=`600 ${fontSize}px JetBrains Mono, ui-monospace, monospace`;
+      columns=Math.floor(w/fontSize);
+      drops=new Array(columns).fill(0).map(()=>Math.random()*-20);
+      speeds=new Array(columns).fill(0).map(()=>BASE_SPEED+(Math.random()*2-1)*VARIANCE);
     }
 
     function tick(){
-      ctx.fillStyle = `rgba(0,0,0,${TRAIL_FADE})`;
-      ctx.fillRect(0, 0, w, h);
-
-      ctx.shadowColor = SHADOW;
-
-      for (let i = 0; i < columns; i++) {
-        const x = i * fontSize;
-        const y = drops[i] * fontSize;
-
-        ctx.fillStyle  = COLOR_TRAIL;
-        ctx.shadowBlur = 8;
-        ctx.fillText('0', x, y);
-
-        ctx.shadowBlur  = 12;
-        ctx.fillStyle   = COLOR_HEAD;
-        ctx.fillText('1', x, y - fontSize);
-        ctx.strokeStyle = STROKE_HEAD;
-        ctx.lineWidth   = 0.7;
-        ctx.strokeText('1', x, y - fontSize);
-
-        if (y > h && Math.random() > 0.985) drops[i] = Math.random() * -20;
-        drops[i] += speeds[i];
+      ctx.fillStyle=`rgba(0,0,0,${TRAIL_FADE})`; ctx.fillRect(0,0,w,h);
+      ctx.shadowColor=SHADOW;
+      for(let i=0;i<columns;i++){
+        const x=i*fontSize,y=drops[i]*fontSize;
+        ctx.fillStyle=COLOR_TRAIL; ctx.shadowBlur=8; ctx.fillText('0',x,y);
+        ctx.shadowBlur=12; ctx.fillStyle=COLOR_HEAD; ctx.fillText('1',x,y-fontSize);
+        ctx.strokeStyle=STROKE_HEAD; ctx.lineWidth=0.7; ctx.strokeText('1',x,y-fontSize);
+        if(y>h&&Math.random()>0.985)drops[i]=Math.random()*-20;
+        drops[i]+=speeds[i];
       }
-
-      rafId = requestAnimationFrame(tick);
+      rafId=requestAnimationFrame(tick);
     }
 
     resize(); tick();
-    addEventListener('resize', () => { cancelAnimationFrame(rafId); resize(); tick(); }, { passive: true });
-
-    const mq = matchMedia('(prefers-reduced-motion: reduce)');
-    mq.addEventListener?.('change', e=>{
-      if(e.matches){ cancelAnimationFrame(rafId); ctx.clearRect(0,0,w,h); c.style.display='none'; }
-      else { c.style.display='block'; resize(); tick(); }
-    });
+    addEventListener('resize',()=>{cancelAnimationFrame(rafId);resize();tick();},{passive:true});
   })();
   </script>
 </body>
