@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Writeups</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #121821;
+      --panel-hover: #17202c;
+      --text: #e9eef5;
+      --muted: #9bb0c0;
+      --accent: #4cc2ff;
+      --border: #223044;
+      --ring: #5fd3ff;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f7f9fc;
+        --panel: #ffffff;
+        --panel-hover: #f2f6fb;
+        --text: #0b1220;
+        --muted: #4b5b6b;
+        --accent: #006ad4;
+        --border: #dbe4ee;
+        --ring: #4aa8ff;
+      }
+      .force-dark :root { /* placeholder, toggled by JS */ }
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font: 15px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
+    }
+
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
+
+    header {
+      display: flex; gap: 16px; align-items: center; justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .title {
+      display: flex; align-items: baseline; gap: 10px;
+    }
+    .title h1 { margin: 0; font-size: 26px; letter-spacing: 0.2px; }
+    .title .sub { color: var(--muted); font-size: 14px; }
+
+    .controls { display: flex; gap: 10px; align-items: center; }
+    .search {
+      background: var(--panel); border: 1px solid var(--border); color: var(--text);
+      border-radius: 10px; padding: 10px 12px; min-width: 260px;
+      outline: none;
+    }
+    .toggle {
+      border: 1px solid var(--border); background: var(--panel); color: var(--text);
+      padding: 10px 12px; border-radius: 10px; cursor: pointer;
+    }
+    .toggle:focus-visible, .card:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat( auto-fill, minmax(260px, 1fr) );
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: linear-gradient(180deg, var(--panel), var(--panel));
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      will-change: transform;
+    }
+    .card:hover { transform: translateY(-2px); background: var(--panel-hover); border-color: var(--accent); }
+    .card h2 { margin: 0 0 6px 0; font-size: 18px; line-height: 1.3; }
+    .meta { color: var(--muted); font-size: 12px; display: flex; gap: 10px; }
+    .desc { color: var(--muted); font-size: 13px; margin-top: 8px; min-height: 2.1em; }
+    .empty { color: var(--muted); text-align: center; padding: 60px 0; }
+
+    /* Top info bar */
+    .bar {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--muted);
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .bar a { color: var(--accent); text-decoration: none; }
+    .bar a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>Writeups</h1>
+        <span class="sub" id="count">Loading…</span>
+      </div>
+      <div class="controls">
+        <input id="search" class="search" placeholder="Filter writeups…" aria-label="Filter writeups" />
+        <button id="mode" class="toggle" type="button" aria-label="Toggle dark mode">🌙</button>
+      </div>
+    </header>
+
+    <div class="bar">
+      <div>Cards are generated automatically from <code>/writeups/*.md</code> in your repo.</div>
+      <div>Tip: Add front-matter like <code>title</code>, <code>date</code>, <code>summary</code> for nicer cards.</div>
+    </div>
+
+    <main id="grid" class="grid" role="list"></main>
+    <div id="empty" class="empty" hidden>No writeups found.</div>
+  </div>
+
+  <script>
+    // --- simple dark-mode toggle that overrides system preference
+    (function() {
+      const key = "chip-writeups-theme";
+      const btn = document.getElementById("mode");
+      const apply = (mode) => {
+        if (mode === "dark") document.documentElement.dataset.theme = "dark";
+        else if (mode === "light") document.documentElement.dataset.theme = "light";
+        else delete document.documentElement.dataset.theme;
+      };
+      const updateEmoji = (mode) => btn.textContent = mode === "light" ? "🌞" : "🌙";
+
+      let theme = localStorage.getItem(key) || "";
+      apply(theme);
+      updateEmoji(theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+
+      btn.addEventListener("click", () => {
+        theme = theme === "dark" ? "light" : theme === "light" ? "" : "dark";
+        localStorage.setItem(key, theme);
+        apply(theme);
+        updateEmoji(theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+      });
+    })();
+
+    // --- helper: format dates nicely
+    function fmtDate(d) {
+      try {
+        const dt = new Date(d);
+        if (isNaN(dt)) return "";
+        return dt.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "2-digit" });
+      } catch { return ""; }
+    }
+
+    // --- derive a human title from filename
+    function humanize(name) {
+      return name
+        .replace(/[-_]+/g, " ")
+        .replace(/\.[^.]+$/, "")
+        .replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    // --- try parse YAML front matter quickly
+    function parseFrontMatter(text) {
+      // expects: ---\nkey: value\n...\n---\n
+      const m = text.match(/^---\\s*([\\s\\S]*?)\\s*---/);
+      if (!m) return {};
+      const block = m[1];
+      const obj = {};
+      for (const line of block.split(/\\r?\\n/)) {
+        const mm = line.match(/^([A-Za-z0-9_\\-]+):\\s*(.*)$/);
+        if (mm) obj[mm[1].trim()] = mm[2].trim().replace(/^"|"$|^'|'$/g, "");
+      }
+      return obj;
+    }
+
+    // --- build card DOM
+    function card({ href, title, summary, date, filename }) {
+      const a = document.createElement("a");
+      a.className = "card";
+      a.setAttribute("role", "listitem");
+      a.href = href;
+
+      const h2 = document.createElement("h2");
+      h2.textContent = title || humanize(filename);
+      a.appendChild(h2);
+
+      const meta = document.createElement("div");
+      meta.className = "meta";
+      meta.innerHTML = [
+        date ? "📅 " + fmtDate(date) : "",
+        "📄 " + filename
+      ].filter(Boolean).join(" · ");
+      a.appendChild(meta);
+
+      if (summary) {
+        const p = document.createElement("div");
+        p.className = "desc";
+        p.textContent = summary;
+        a.appendChild(p);
+      }
+
+      return a;
+    }
+
+    async function load() {
+      const owner = "Chip-Biscuit";
+      const repo  = "Chip-Biscuit.github.io";
+      const dir   = "writeups";
+      const api   = `https://api.github.com/repos/${owner}/${repo}/contents/${dir}`;
+
+      const res = await fetch(api, { headers: { "Accept": "application/vnd.github+json" }});
+      const items = await res.json();
+
+      const md = (items || []).filter(x => x && x.name && x.name.toLowerCase().endsWith(".md"));
+      const enriched = [];
+
+      for (const it of md) {
+        let title = "", summary = "", date = "", filename = it.name;
+
+        try {
+          const r = await fetch(it.download_url);
+          const text = await r.text();
+
+          const fm = parseFrontMatter(text);
+          title   = fm.title || "";
+          summary = fm.summary || fm.description || "";
+          date    = fm.date || "";
+
+          if (!title) {
+            const h = text.match(/^#\\s+(.+)$/m);
+            if (h) title = h[1].trim();
+          }
+        } catch (e) {
+          // ignore parse errors, fallback to filename
+        }
+
+        // Prefer the built site path (Jekyll turns .md into .html if it has front matter)
+        const siteHref = `/${dir}/${filename.replace(/\\.md$/i, ".html")}`;
+        const ghHref   = it.html_url; // fallback to GH view
+
+        enriched.push({
+          href: siteHref,
+          title,
+          summary,
+          date,
+          filename,
+          fallback: ghHref
+        });
+      }
+
+      // Validate which links likely exist by probing HEAD; if it fails, use GH link
+      const results = await Promise.all(enriched.map(async (e) => {
+        try {
+          const h = await fetch(e.href, { method: "HEAD" });
+          if (!h.ok) throw 0;
+          return e;
+        } catch {
+          return { ...e, href: e.fallback };
+        }
+      }));
+
+      // Sort by date desc if present, otherwise by title
+      results.sort((a, b) => {
+        const da = Date.parse(a.date) || 0, db = Date.parse(b.date) || 0;
+        if (db !== da) return db - da;
+        return (a.title || a.filename).localeCompare(b.title || b.filename);
+      });
+
+      const grid = document.getElementById("grid");
+      const empty = document.getElementById("empty");
+      const count = document.getElementById("count");
+
+      for (const r of results) grid.appendChild(card(r));
+      count.textContent = results.length ? `${results.length} writeup${results.length>1?"s":""}` : "No writeups";
+
+      empty.hidden = results.length !== 0;
+
+      // search filter
+      const search = document.getElementById("search");
+      search.addEventListener("input", () => {
+        const q = search.value.trim().toLowerCase();
+        let shown = 0;
+        for (const a of grid.querySelectorAll(".card")) {
+          const text = a.textContent.toLowerCase();
+          const keep = !q || text.includes(q);
+          a.style.display = keep ? "" : "none";
+          if (keep) shown++;
+        }
+        count.textContent = shown ? `${shown} writeup${shown>1?"s":""}` : "No matches";
+        empty.hidden = shown !== 0;
+      });
+    }
+
+    load().catch(err => {
+      console.error(err);
+      document.getElementById("empty").hidden = false;
+      document.getElementById("empty").textContent = "Could not load writeups.";
+      document.getElementById("count").textContent = "Error";
+    });
+  </script>
+</body>
+</html>
