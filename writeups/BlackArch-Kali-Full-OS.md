@@ -6,6 +6,12 @@ summary: "Shared EFI/swap, GRUB nomodeset, iwd/dhcpcd Wi-Fi."
 ---
 
 
+---
+title: "Kali + BlackArch Dual-Boot (UEFI) — Full Guide"
+date: 2025-10-23
+summary: "Shared EFI/swap, GRUB nomodeset, iwd/dhcpcd Wi-Fi."
+---
+
 # ⚙️ Kali + BlackArch Dual-Boot — Full Bare-Metal Installation & EFI Repair Guide
 
 ## 🖥️ System Overview
@@ -132,7 +138,7 @@ Follow the text interface to begin setup.
 5. Finish partitioning → write changes.  
 6. **Software Selection:** Choose desktop environment (XFCE, GNOME or KDE Plasma). *(KDE Plasma used here.)*  
    Select almost all tools for a complete setup.  
-7. **GRUB Install:** Skip automatic GRUB installation — we’ll repair manually.  
+7. **GRUB Install:** Skip automatic GRUB installation —we’ll repair manually.  
 8. **Clock:** Set to UTC.  
 9. Complete installation and reboot.  
 
@@ -142,6 +148,7 @@ The system will still boot directly into BlackArch for now.
 ---
 
 ## ⚙️ STEP 7 — Preparing to Repair and Configure GRUB
+
 1. Reboot to confirm it boots into BlackArch (default behavior).  
 2. Power off and insert the Ventoy USB again.  
 3. Boot into **Kali Live (UEFI mode)** → open a terminal.  
@@ -150,33 +157,149 @@ The system will still boot directly into BlackArch for now.
 
 ---
 
-## ⚙️ STEP 8 — Kali + BlackArch Dual-Boot — Full GRUB & EFI Repair Guide
-**Goal:** Re-install Kali’s GRUB as the main bootloader, detect BlackArch automatically, and make Kali load first.  
+## ⚙️ STEP 8 — Kali + BlackArch Dual-Boot — Full GRUB & EFI Repair Guide (Final Version)
 
-Follow the complete GRUB and EFI repair process as detailed above.  
+**Goal:** Re-install Kali’s GRUB as the main bootloader, detect BlackArch automatically, and ensure Kali loads first, even on stubborn BIOS systems.
+
+### 1️⃣ Boot into Kali Live
+Boot from the Kali Live USB (UEFI mode) and open a terminal.
+
+### 2️⃣ Identify partitions
+```bash
+lsblk -f
+```
+Typical layout:
+```
+/dev/nvme0n1p1 EFI System (vfat)
+/dev/nvme0n1p2 Swap (swap)
+/dev/nvme0n1p3 BlackArch root (ext4)
+/dev/nvme0n1p4 Kali root (ext4)
+```
+
+### 3️⃣ Mount Kali & EFI
+```bash
+sudo umount -R /mnt 2>/dev/null || true
+sudo mount /dev/nvme0n1p4 /mnt
+sudo mkdir -p /mnt/boot/efi
+sudo mount /dev/nvme0n1p1 /mnt/boot/efi
+sudo mount --bind /dev /mnt/dev
+sudo mount --bind /proc /mnt/proc
+sudo mount --bind /sys /mnt/sys
+cat /mnt/etc/os-release
+```
+(Should show NAME="Kali GNU/Linux")
+
+### 4️⃣ Chroot into Kali
+```bash
+sudo chroot /mnt /bin/bash
+```
+
+### 5️⃣ Install GRUB and tools
+```bash
+apt update
+apt install -y grub-efi-amd64 efibootmgr os-prober
+```
+
+### 6️⃣ Enable OS detection
+```bash
+grep -q '^GRUB_DISABLE_OS_PROBER=false' /etc/default/grub || echo 'GRUB_DISABLE_OS_PROBER=false' >> /etc/default/grub
+```
+
+### 7️⃣ Reinstall and rebuild GRUB
+```bash
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Kali --recheck
+update-grub
+```
+(You should see “Found Arch Linux on /dev/nvme0n1p3”)
+
+### 8️⃣ Mount pseudo-terminals & EFI variables
+```bash
+mount -t devpts devpts /dev/pts
+mount -t efivarfs efivarfs /sys/firmware/efi/efivars
+```
+
+### 9️⃣ Delete the rogue Linux Boot Manager (BlackArch’s entry)
+```bash
+efibootmgr -v
+efibootmgr -b 0003 -B (replace 0003 with the ID shown for "Linux Boot Manager")
+rm -rf /boot/efi/EFI/systemd
+```
+
+### 🔟 Re-register Kali’s GRUB and set boot order
+```bash
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Kali --recheck
+efibootmgr -o 0000,0006,0007 (adjust the numbers so Kali is first)
+efibootmgr -v
+```
+
+### 11️⃣ Hard-wire the BIOS fallback (forces BIOS to load Kali GRUB)
+```bash
+mkdir -p /boot/efi/EFI/BOOT
+cp /boot/efi/EFI/kali/grubx64.efi /boot/efi/EFI/BOOT/bootx64.efi
+```
+
+Check:
+```bash
+ls /boot/efi/EFI/BOOT/
+```
+(Should show bootx64.efi)
+
+### 12️⃣ Optional cleanup of leftover EFI folders
+```bash
+rm -rf /boot/efi/EFI/arch
+rm -rf /boot/efi/EFI/linux
+```
+
+### 13️⃣ Final verification & reboot
+```bash
+efibootmgr -v
+exit
+sudo reboot
+```
+Remove the USB stick before the reboot so BIOS loads from disk.
+
+**Expected result:**
+Kali’s GRUB menu appears first every time.
+GRUB lists both Kali GNU/Linux and Arch Linux (BlackArch).
+BlackArch boots only when selected, and Kali remains default.
 
 ---
 
-## 🧠 STEP 9 — Create a Permanent “nomodeset” GRUB Entry for BlackArch (from Kali)
-**Goal:** Keep the `nomodeset` parameter permanently for hybrid-GPU systems.  
+## 🧠 STEP 9 — How to Create a Permanent “nomodeset” GRUB Entry for BlackArch Linux (from Kali)
 
-1️⃣ **Verify BlackArch detected:**  
+**GOAL:**
+If BlackArch boots successfully from Kali’s GRUB menu but only when you manually type `nomodeset`, this step will show you how to create a permanent GRUB entry so you never have to enter it again.
+
+1️⃣ Confirm GRUB Detects BlackArch
 ```bash
 sudo update-grub
 ```
-Confirm you see “Found Arch Linux on /dev/nvme0n1p3”.  
+You should see output similar to:
+```
+Found Arch Linux on /dev/nvme0n1p3
+```
+If you can boot BlackArch from this menu entry, continue.
 
-2️⃣ **Find the existing entry:**  
+2️⃣ Find the Kernel Lines Used by GRUB
 ```bash
 grep -A5 "menuentry 'Arch" /boot/grub/grub.cfg
 ```
-Note the UUID and kernel/initrd paths.  
+You’ll see output like:
+```
+menuentry 'Arch Linux (rolling) (on /dev/nvme0n1p3)' {
+   insmod part_gpt
+   insmod fat
+   search --no-floppy --fs-uuid --set=root EB9B-4F74
+   linux /vmlinuz-linux root=/dev/nvme0n1p3
+   initrd /initramfs-linux.img
+}
+```
 
-3️⃣ **Create custom entry:**  
+3️⃣ Create a Custom GRUB Entry
 ```bash
 sudo nano /etc/grub.d/40_custom
 ```
-Add to the end:  
+Paste and edit as needed:
 ```
 menuentry 'BlackArch (nomodeset) (on /dev/nvme0n1p3)' --class gnu-linux --class gnu --class os {
    insmod part_gpt
@@ -186,23 +309,28 @@ menuentry 'BlackArch (nomodeset) (on /dev/nvme0n1p3)' --class gnu-linux --class 
    initrd /initramfs-linux.img
 }
 ```
-Save and exit: **Ctrl + O**, **Enter**, **Ctrl + X**.  
+Save (**Ctrl+O**, **Enter**, **Ctrl+X**).
 
-4️⃣ **Rebuild GRUB:**  
+4️⃣ Rebuild GRUB
 ```bash
 sudo update-grub
 ```
 
-5️⃣ **Reboot and test:** Select “BlackArch (nomodeset)” in GRUB.  
+5️⃣ Reboot and test
+You’ll now see a new entry in the GRUB menu:
+```
+BlackArch (nomodeset) (on /dev/nvme0n1p3)
+```
 
-6️⃣ **Make default if desired:**  
+6️⃣ Make the New Entry the Default (Optional)
 ```bash
 grep -n "menuentry '" /boot/grub/grub.cfg
 sudo grub-set-default "BlackArch (nomodeset) (on /dev/nvme0n1p3)"
 sudo update-grub
 ```
 
-**Result:** BlackArch boots permanently with `nomodeset` applied, no manual editing needed.  
+7️⃣ Summary
+You copied your existing working BlackArch GRUB entry, added `nomodeset`, and made it permanent. This persists across updates.
 
 ---
 
@@ -217,4 +345,4 @@ sudo update-grub
 
 ### 🧭 End of Guide
 You’ve now completed a fully manual, UEFI-compliant dual-boot installation with custom bootloader control and hybrid-GPU support.  
-This is a rock-solid template for any future multi-OS penetration-testing lab build.  
+This is a rock-solid template for any future multi-OS penetration-testing lab build.
