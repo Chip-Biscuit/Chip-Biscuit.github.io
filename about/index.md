@@ -6,7 +6,7 @@ summary: "Reverse Engineering · CTFs · Game Fixes · Cyber Security"
 
 # 👋 About Me
 
-Hey, I’m **Chip Biscuit** — a reverse-engineering enthusiast, security tinkerer, nostalgic game patch creator, and all-around tech explorer.  
+Hey, I’m **Chip** — a Tech enthusiast, security tinkerer, nostalgic game patch creator, Reverse Engineer, Programmer and all-around tech explorer.  
 I spend my time breaking things (ethically) to understand them, restoring old Windows titles, writing Direct3D wrappers, and diving deep into system-level programming.
 
 ---
