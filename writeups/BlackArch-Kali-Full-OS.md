@@ -5,13 +5,6 @@ summary: "Shared EFI/swap, GRUB nomodeset, iwd/dhcpcd Wi-Fi."
 # layout is auto via _config; if you prefer explicit: layout: default
 ---
 
-
----
-title: "Kali + BlackArch Dual-Boot (UEFI) — Full Guide"
-date: 2025-10-23
-summary: "Shared EFI/swap, GRUB nomodeset, iwd/dhcpcd Wi-Fi."
----
-
 # ⚙️ Kali + BlackArch Dual-Boot — Full Bare-Metal Installation & EFI Repair Guide
 
 ## 🖥️ System Overview
