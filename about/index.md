@@ -19,7 +19,8 @@ I spend my time breaking things (ethically) to understand them, restoring old Wi
 - Steganography, cryptography & CTF challenges  
 - Cyber security and ethical hacking  
 - Building inclusive tech spaces like **ByteMatrix** & **FixEnhancers**  
-- Developing tools, software, and hardware that simply get the job done  
+- Developing tools, software, and hardware that simply get the job done
+- play around with rasbery pi and arduinos make automation scripts or pi holes all sorts of fun little projects.
 
 ---
 
