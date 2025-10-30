@@ -58,10 +58,6 @@ You can explore my work here:
 
 ---
 
-<sub>*Focused on understanding systems from the ground up — from assembly to APIs, from binaries to behavior.*</sub>
-
----
-
 💬 **Discord:** `_._chip_._` — send a message request and I’ll get back to you when I can.  
 
 ---
@@ -72,4 +68,8 @@ I still love debugging early-2000s PC games just to bring them back to life — 
 
 ---
 
-*— This website is currently WIP —*
+<sub>*Focused on understanding systems from the ground up — from assembly to APIs, from binaries to behavior.*</sub>
+
+---
+
+**— This website is currently WIP —**
