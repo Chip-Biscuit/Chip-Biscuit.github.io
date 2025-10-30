@@ -29,8 +29,6 @@ You can explore my work here:
 - [Write-ups](/writeups/) — challenges, labs, and OS setup guides  
 - [GitHub](https://github.com/Chip-Biscuit) — full source repositories  
 
-💬 **Discord:** `_._chip_._` — send a message or friend request and I’ll get back to you when I can.  
-
 ---
 
 ## 💡 Philosophy
@@ -62,6 +60,9 @@ You can explore my work here:
 
 <sub>*Focused on understanding systems from the ground up — from assembly to APIs, from binaries to behavior.*</sub>
 
+---
+
+💬 **Discord:** `_._chip_._` — send a message request and I’ll get back to you when I can.  
 
 ---
 
