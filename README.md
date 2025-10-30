@@ -1,2 +1,2 @@
 # chip.github.io
-Writeups
+https://chip-biscuit.github.io/
