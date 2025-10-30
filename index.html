@@ -183,12 +183,22 @@ layout: none
           <span class="tagline">breaking things to understand them.</span>
         </h1>
 
-      
-        <p class="mono">
-          Hey, my name is Chip. I love Technology, Science, Computers, Electricity, Pulling things apart and understanding how they work is something i really love to do. 
-          Here you can find my write ups for reverse engineering, all sorts of tinkering, capture the flags, os installs and anything inbetween. 
-          Join me on a journey through the world of Chip.
-        </p>
+      /* nicer paragraph width + rhythm for mono blurb */
+.mono.pretty {
+  max-width: 68ch;       /* great reading measure */
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  margin: 0 auto 1rem;   /* center it */
+  display: block;
+}
+     <p class="mono pretty">
+  Hey, I’m Chip. I’ve always been fascinated by how things work—whether it’s technology, science, computers, or electricity.
+  Taking things apart to truly understand their inner workings isn’t just a hobby for me—it’s who I am.
+</p>
+<p class="mono pretty">
+  Here you’ll find my write-ups on <strong>reverse engineering</strong>, <strong>tinkering</strong>, <strong>CTFs</strong>, <strong>OS setups</strong>, and everything in between.
+  Join me on a journey through the world of Chip—where curiosity, creativity, and code collide.
+</p>
 
         <div class="actions">
           <a class="btn primary" href="/writeups/">
