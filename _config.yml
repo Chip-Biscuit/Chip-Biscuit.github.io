@@ -16,3 +16,9 @@ include:
   - _includes
   - _layouts
   - assets
+
+url: "https://chip-biscuit.github.io"
+
+social_title: 'Chip — “What I cannot create, I do not understand.”'
+social_desc:  'Reverse engineering, CTFs, game fixes, and cyber security.'
+social_image: '/assets/images/social-card-v4.png'  # keep this path
