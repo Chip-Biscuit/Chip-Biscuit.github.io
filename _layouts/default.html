@@ -13,34 +13,39 @@
     {{ content }}
   </main>
 
-  <script>
-    (function(){
-      const key = "chip-theme";
-      const btn = document.getElementById("theme-toggle");
-      const sysDark = () => matchMedia("(prefers-color-scheme: dark)").matches;
-      const apply = m => {
-        if (m === "dark" || m === "light") document.documentElement.dataset.theme = m;
-        else delete document.documentElement.dataset.theme;
-      };
-      const emoji = m => (m || (sysDark() ? "dark" : "light")) === "light" ? "🌞" : "🌙";
+<script>
+(function () {
+  const key = "chip-theme";
+  const btn = document.getElementById("theme-toggle");
+  if (!btn) return;
 
-      let mode = localStorage.getItem(key) || "";
-      apply(mode);
+  const sysPrefersDark = () => matchMedia("(prefers-color-scheme: dark)").matches;
 
-      if (btn) {
-        btn.textContent = emoji(mode);
-        btn.addEventListener("click", () => {
-          mode = mode === "dark" ? "light" : mode === "light" ? "" : "dark";
-          localStorage.setItem(key, mode);
-          apply(mode);
-          btn.textContent = emoji(mode);
-        });
-      }
+  function setTheme(mode) {           // mode: "dark" | "light"
+    document.documentElement.dataset.theme = mode;
+    localStorage.setItem(key, mode);
+    btn.textContent = mode === "light" ? "🌞" : "🌙";
+  }
 
-      matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => {
-        if (!localStorage.getItem(key) && btn) btn.textContent = emoji("");
-      });
-    })();
-  </script>
+  function effectiveTheme() {         // saved or system
+    return localStorage.getItem(key) || (sysPrefersDark() ? "dark" : "light");
+  }
+
+  // Init
+  setTheme(effectiveTheme());
+
+  // One-click flip
+  btn.addEventListener("click", () => {
+    const next = effectiveTheme() === "dark" ? "light" : "dark";
+    setTheme(next);
+  });
+
+  // If you ever remove the saved pref, keep in sync with system
+  matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => {
+    if (!localStorage.getItem(key)) setTheme(effectiveTheme());
+  });
+})();
+</script>
+
 </body>
 </html>
