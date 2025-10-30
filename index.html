@@ -33,6 +33,7 @@ layout: none
       font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
       overflow-x:hidden;
     }
+    /* faint grid overlay */
     body::before{
       content:""; position:fixed; inset:0;
       background:
@@ -42,6 +43,7 @@ layout: none
       pointer-events:none; z-index:0;
     }
 
+    /* matrix canvas */
     .matrix{
       position: fixed; inset: 0; z-index: 1;
       opacity: .10; pointer-events:none; mix-blend-mode: screen;
@@ -79,7 +81,7 @@ layout: none
       font-size:clamp(28px, 5vw, 56px);
       font-weight:900;
       line-height:1.05;
-      margin:8px 0 12px;
+      margin:8px 0 10px;
       letter-spacing:.3px;
     }
     .title .brand{
@@ -92,8 +94,6 @@ layout: none
       animation:brandShift 20s linear infinite;
       margin-right:.25em;
     }
-    .title .sep{ opacity:.6; }
-    .title .tagline{ color:var(--blue); }
     @keyframes brandShift{
       0%{background-position:0% 50%}
       50%{background-position:100% 50%}
@@ -128,6 +128,39 @@ layout: none
     .footer{ margin-top:36px; text-align:center; color:var(--muted); font-size:.9rem; }
     .kbd{ padding:.1em .45em; border:1px solid rgba(255,255,255,.2); border-bottom-width:2px; border-radius:6px; font-size:.85em; background:rgba(255,255,255,.04); }
 
+    /* C++-style motto block */
+    .codeblock{
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin: 8px 0 18px;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .95rem;
+      line-height: 1.6;
+      color: var(--ink);
+      position: relative;
+      overflow: auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      text-align: left;
+    }
+    .codeblock::before{
+      content: "C++";
+      position: absolute;
+      top: 8px; right: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      border: 1px solid rgba(255,255,255,.14);
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+    }
+    .codeblock .kw  { color: var(--blue); }
+    .codeblock .str { color: #4cf0ff; }
+    .codeblock .com { color: var(--muted); }
+    .codeblock .id  { color: #c7d2fe; }
+    .codeblock .pun { color: #9bb0c0; }
+
     @media (prefers-reduced-motion: reduce){ .matrix{ display:none; } }
   </style>
 </head>
@@ -143,11 +176,15 @@ layout: none
 
       <div class="card">
         <span class="label">ABOUT · REVERSE ENGINEERING · CTF · PROGRAMMING · CYBER SECURITY</span>
-        <h1 class="title">
+
+        <h1 class="title" style="margin-bottom:10px">
           <span class="brand">Chip</span>
-          <span class="sep">—</span>
-          <span class="tagline">“What I cannot create, I do not understand.”</span>
         </h1>
+
+        <pre class="codeblock" aria-label="Feynman motto in C++ style"><code>
+<span class="com">// Richard Feynman</span>
+<span class="kw">constexpr</span> <span class="kw">auto</span> <span class="id">motto</span> <span class="pun">=</span> <span class="str">"What I cannot create, I do not understand."</span><span class="pun">;</span>
+</code></pre>
 
         <p class="mono pretty">
           Hey, I’m Chip. I’ve always been fascinated by how things work—whether it’s technology, science, computers, or electricity.
@@ -160,13 +197,13 @@ layout: none
         </p>
 
         <div class="actions">
-          <a class="btn primary" href="/">← Home</a>
+          <a class="btn primary" href="/about/">About</a>
           <a class="btn" href="/writeups/">Write-ups</a>
           <a class="btn" href="https://github.com/Chip-Biscuit" target="_blank" rel="noopener">GitHub</a>
         </div>
 
         <p class="footer">
-          Thanks for visiting — and remember: <em>breaking things is how we learn.</em>
+          Thanks for visiting — and remember: <em>the pleasure is in finding things out.</em>
         </p>
       </div>
     </section>
