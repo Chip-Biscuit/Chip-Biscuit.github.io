@@ -1,32 +1,54 @@
 ---
-title: About
-permalink: /about/
-layout: page
+title: "About Chip Biscuit"
+layout: default
+summary: "Reverse Engineering · CTFs · Game Fixes · Cyber Security"
 ---
 
-# Hey, I'm Chip
+# 👋 About Me
 
-I break things to understand them — reverse engineering, memory shenanigans, and CTF write-ups.  
-This site collects my notes, patches, and research.
-
-## What I do
-- **Reverse engineering:** x86/x64, PE files, static + dynamic analysis  
-- **Graphics & tooling:** Direct3D hooks/wrappers, overlays, ImGui tools  
-- **CTFs & write-ups:** TryHackMe, OverTheWire (flags redacted)  
-- **Game fixes:** widescreen patches, controller mods, QoL tweaks
-
-## Stack I like
-C/C++ · x86 asm · Ghidra · IDA · Cheat Engine (for science) · Linux · Direct3D · ImGui
-
-## Principles
-- Understand first, automate second.
-- Document enough that future-me says “thanks.”
-- Be ethical. Don’t ship exploits; ship knowledge.
-
-## Contact
-- GitHub: [Chip-Biscuit](https://github.com/Chip-Biscuit)  
-- Email: `<your@email>` (PGP optional)  
-- Résumé (PDF): [/Chip_Biscuit_Resume.pdf](/Chip_Biscuit_Resume.pdf)
+Hey, I’m **Chip Biscuit** — a reverse-engineering enthusiast, security tinkerer, and nostalgic game patch creator.  
+I spend my time breaking things (ethically) to understand them, restoring old Windows titles, writing Direct3D wrappers, and diving deep into system-level programming.
 
 ---
-If you’re a recruiter: I love gnarly bugs, weird binaries, and graphics tooling. Let’s chat.
+
+## 🧠 What I Do
+
+- Reverse engineering & low-level debugging  
+- DirectX (D3D8/9) compatibility wrappers  
+- Memory trainers & pointer chain tools  
+- Steganography, cryptography & CTF challenges  
+- Cyber security and ethical hacking  
+- Building inclusive tech spaces like **ByteMatrix**
+
+---
+
+## 🌐 Projects & Communities
+
+You can explore my work here:  
+- [Write-ups](/writeups/) — challenges, labs, and OS setup guides  
+- [Projects](/projects/) — my custom patches and Direct3D wrappers  
+- [GitHub](https://github.com/Chip-Biscuit) — full source repositories  
+
+---
+
+## 💡 Philosophy
+
+> “Breaking things to understand them.”  
+>  
+> Curiosity is the core of progress — every bug, crash, and hex dump is an opportunity to learn something new.
+
+---
+
+## 🛠️ Tech Stack & Tools
+
+`C++` · `Python` · `x86 Assembly` · `Direct3D` · `MinHook` · `IDA` · `Cheat Engine` · `Linux` · `GRUB` · `Wireshark` · `Nmap`
+
+---
+
+## 🕹️ Fun Fact
+
+I still love debugging early-2000s PC games just to bring them back to life — there’s something magical about watching old code run perfectly on modern hardware.
+
+---
+
+*← Use the “Home” button above to return to the main site, or toggle 🌙 / 🌞 to switch theme.*
