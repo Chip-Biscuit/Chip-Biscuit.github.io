@@ -1,11 +1,18 @@
-title: "Chip — Reverse Engineering & CTFs"
-description: "Reverse engineering, CTF write-ups, tools, and research by Chip."
-theme: minima
+title: "Chip Biscuit"
+description: "Write-ups, reverse engineering, and cybersecurity research."
+theme: null
 markdown: kramdown
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
-collections:
-  writeups:
-    output: true
-    permalink: /writeups/:name/
+highlighter: rouge
+
+defaults:
+  - scope:
+      path: "writeups"
+      type: "pages"
+    values:
+      layout: default
+
+# Keep the _includes and _layouts folders in the build
+include:
+  - _includes
+  - _layouts
+  - assets
