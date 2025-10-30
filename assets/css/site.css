@@ -1,0 +1,47 @@
+:root{
+  --bg:#0b0f14; --ink:#e9eef5; --muted:#9bb0c0;
+  --panel:#121821; --border:#223044; --accent:#4cc2ff;
+}
+@media (prefers-color-scheme: light){
+  :root{
+    --bg:#f7f9fc; --ink:#0b1220; --muted:#4b5b6b;
+    --panel:#ffffff; --border:#dbe4ee; --accent:#006ad4;
+  }
+}
+/* manual overrides via toggle */
+html[data-theme="dark"]{
+  --bg:#0b0f14; --ink:#e9eef5; --muted:#9bb0c0;
+  --panel:#121821; --border:#223044; --accent:#4cc2ff;
+}
+html[data-theme="light"]{
+  --bg:#f7f9fc; --ink:#0b1220; --muted:#4b5b6b;
+  --panel:#ffffff; --border:#dbe4ee; --accent:#006ad4;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+
+.sitebar{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border)}
+.sitebar .wrap{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.sitebar .home{color:var(--ink);text-decoration:none;border:1px solid var(--border);padding:8px 12px;border-radius:10px}
+.sitebar .home:hover{border-color:var(--accent)}
+.sitebar .toggle{border:1px solid var(--border);background:var(--panel);color:var(--ink);padding:8px 12px;border-radius:10px;cursor:pointer}
+.sitebar .spacer{flex:1}
+
+.container{max-width:1100px;margin:0 auto;padding:28px 16px}
+
+/* nice readable prose */
+.prose h1,.prose h2,.prose h3{line-height:1.2;margin:1.2em 0 .4em}
+.prose h1{font-size:clamp(28px,4.4vw,40px)}
+.prose h2{font-size:clamp(22px,3.2vw,28px)}
+.prose h3{font-size:clamp(18px,2.6vw,22px)}
+.prose p, .prose ul, .prose ol, .prose blockquote, .prose pre{margin:1em 0}
+.prose a{color:var(--accent);text-decoration:none}
+.prose a:hover{text-decoration:underline}
+.prose code{background:rgba(127,127,127,.12);padding:.15em .35em;border-radius:6px}
+.prose pre{background:var(--panel);border:1px solid var(--border);padding:14px;border-radius:12px;overflow:auto}
+.prose blockquote{border-left:3px solid var(--accent);padding-left:12px;color:var(--muted)}
+.prose table{border-collapse:collapse;width:100%;overflow:auto;display:block}
+.prose th,.prose td{border:1px solid var(--border);padding:.5em .6em}
+.prose img{max-width:100%;height:auto;border-radius:10px;border:1px solid var(--border)}
