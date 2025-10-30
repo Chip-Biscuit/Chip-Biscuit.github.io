@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{ page.title | escape }} • Chip Biscuit</title>
+  <meta name="color-scheme" content="light dark" />
+  <link rel="stylesheet" href="/assets/css/site.css">
+</head>
+<body>
+  {% include header.html %}
+  <main class="container prose">
+    {{ content }}
+  </main>
+
+  <script>
+    (function(){
+      const key = "chip-theme";
+      const btn = document.getElementById("theme-toggle");
+      const sysDark = () => matchMedia("(prefers-color-scheme: dark)").matches;
+      const apply = m => {
+        if (m === "dark" || m === "light") document.documentElement.dataset.theme = m;
+        else delete document.documentElement.dataset.theme;
+      };
+      const emoji = m => (m || (sysDark() ? "dark" : "light")) === "light" ? "🌞" : "🌙";
+
+      let mode = localStorage.getItem(key) || "";
+      apply(mode);
+
+      if (btn) {
+        btn.textContent = emoji(mode);
+        btn.addEventListener("click", () => {
+          mode = mode === "dark" ? "light" : mode === "light" ? "" : "dark";
+          localStorage.setItem(key, mode);
+          apply(mode);
+          btn.textContent = emoji(mode);
+        });
+      }
+
+      matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => {
+        if (!localStorage.getItem(key) && btn) btn.textContent = emoji("");
+      });
+    })();
+  </script>
+</body>
+</html>
