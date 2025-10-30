@@ -18,7 +18,7 @@ I spend my time breaking things (ethically) to understand them, restoring old Wi
 - Memory trainers & pointer chain tools  
 - Steganography, cryptography & CTF challenges  
 - Cyber security and ethical hacking  
-- Building inclusive tech spaces like **ByteMatrix**
+- Building inclusive tech spaces like **ByteMatrix** && **FixEnhancers**
 
 ---
 
