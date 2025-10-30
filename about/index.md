@@ -26,7 +26,6 @@ I spend my time breaking things (ethically) to understand them, restoring old Wi
 
 You can explore my work here:  
 - [Write-ups](/writeups/) — challenges, labs, and OS setup guides  
-- [Projects](/projects/) — my custom patches and Direct3D wrappers  
 - [GitHub](https://github.com/Chip-Biscuit) — full source repositories  
 
 ---
@@ -41,7 +40,7 @@ You can explore my work here:
 
 ## 🛠️ Tech Stack & Tools
 
-`C++` · `Python` · `x86 Assembly` · `Direct3D` · `MinHook` · `IDA` · `Cheat Engine` · `Linux` · `GRUB` · `Wireshark` · `Nmap`
+`C++` · `Python` · `x86 Assembly` · `Direct3D` · `MinHook` · `IDA` · `Cheat Engine` · `Linux` · `Debuggers`
 
 ---
 
@@ -51,4 +50,4 @@ I still love debugging early-2000s PC games just to bring them back to life — 
 
 ---
 
-*← Use the “Home” button above to return to the main site, or toggle 🌙 / 🌞 to switch theme.*
+-- This website is currently WIP --
