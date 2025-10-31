@@ -94,7 +94,7 @@ layout: none
                   0 0 80px -20px rgba(255,0,212,.35),
                   0 0 80px -20px rgba(0,234,255,.35);
       padding:28px; backdrop-filter: blur(10px);
-      min-width:0; /* prevents overflow in grid */
+      min-width:0;
     }
 
     .logoWrap{ position:relative; display:grid; place-items:center; padding:18px; isolation:isolate; }
@@ -162,21 +162,27 @@ layout: none
     .footer{ margin-top:36px; text-align:center; color:var(--muted); font-size:.9rem; }
     .kbd{ padding:.1em .45em; border:1px solid rgba(255,255,255,.2); border-bottom-width:2px; border-radius:6px; font-size:.85em; background:rgba(255,255,255,.04); }
 
+    /* C++-style motto block — now wraps, no scrollbar */
     .codeblock{
       background: var(--card);
       border: 1px solid rgba(255,255,255,.12);
       border-radius: 14px;
-      padding: 14px 16px;
+      padding: 12px 14px;
       margin: 8px 0 18px;
       font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: .95rem;
-      line-height: 1.6;
+      font-size: .9rem;          /* slightly smaller to fit */
+      line-height: 1.55;
       color: var(--ink);
       position: relative;
-      overflow: auto;
+      overflow: hidden;          /* hide any accidental overflow */
       box-shadow: 0 10px 30px rgba(0,0,0,.25);
       text-align: left;
       max-width:100%;
+    }
+    .codeblock code{
+      display:block;
+      white-space: pre-wrap;     /* wrap long lines */
+      word-break: break-word;    /* safety for long tokens */
     }
     .codeblock::before{
       content: "C++";
@@ -201,6 +207,7 @@ layout: none
       .card{ padding:22px; }
       .actions{ justify-content:center; }
       .mono.pretty{ margin:0 0 1rem; }
+      .codeblock{ font-size:.85rem; padding:10px 12px; }
     }
 
     @media (prefers-reduced-motion: reduce){ .matrix{ display:none; } }
@@ -224,7 +231,8 @@ layout: none
 
         <pre class="codeblock" aria-label="Feynman motto in C++ style"><code>
 <span class="com">// Richard Feynman</span>
-<span class="kw">constexpr</span> <span class="kw">auto</span> <span class="id">motto</span> <span class="pun">=</span> <span class="str">"What I cannot create, I do not understand."</span><span class="pun">;</span>
+<span class="kw">constexpr</span> <span class="kw">auto</span> <span class="id">motto</span> <span class="pun">=</span>
+    <span class="str">"What I cannot create, I do not understand."</span><span class="pun">;</span>
 </code></pre>
 
         <p class="mono pretty">
