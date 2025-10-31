@@ -226,9 +226,7 @@ layout: none
     const elT=document.getElementById('motto-text');
     if(!elA||!elT)return;
 
-    const day=new Date();
-    const idx=day.getFullYear()*1000+day.getDate();
-    const quote=quotes[idx%quotes.length];
+  const quote = quotes[Math.floor(Math.random() * quotes.length)];
 
     elA.classList.add('rotating-fade');
     elT.classList.add('rotating-fade');
