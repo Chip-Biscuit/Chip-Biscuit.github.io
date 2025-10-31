@@ -1,44 +1,42 @@
 ---
 layout: none
 ---
-
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Page title + description shown in embeds -->
+  <!-- Brand title used in embeds -->
   <title>Chip — “What I cannot create, I do not understand.”</title>
-  <meta name="description" content="“What I cannot create, I do not understand.”" />
+  <meta name="description" content="Reverse engineering, CTFs, game fixes, and cyber security." />
   <meta name="theme-color" content="#0b0b12" />
   <meta name="color-scheme" content="light dark" />
 
-  <!-- Canonical -->
+  <!-- Canonical must point to HOME for this page -->
   <link rel="canonical" href="https://chip-biscuit.github.io/" />
 
-  <!-- Favicon + Fonts -->
-  <link rel="icon" href="/assets/images/social-card-v4.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-
-  <!-- Open Graph -->
+  <!-- Social cards (Discord/X/etc.) -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://chip-biscuit.github.io/" />
   <meta property="og:site_name" content="Chip" />
-  <meta property="og:title" content="Chip —  Reverse engineering, CTFs, game fixes, and cyber security." />
-  <meta property="og:description" content="“What I cannot create, I do not understand.”" />
-  <meta property="og:image" content="https://chip-biscuit.github.io/assets/images/social-card-v4.png?v=2" />
+  <meta property="og:title" content="Chip — “What I cannot create, I do not understand.”" />
+  <meta property="og:description" content="Reverse engineering, CTFs, game fixes, and cyber security." />
+  <meta property="og:image" content="https://chip-biscuit.github.io/assets/images/social-card-v4.png?v=3" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:type" content="image/png" />
 
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Chip — Reverse engineering, CTFs, game fixes, and cyber security." />
-  <meta name="twitter:description" content="“What I cannot create, I do not understand.”"/>
-  <meta name="twitter:image" content="https://chip-biscuit.github.io/assets/images/social-card-v4.png?v=2" />
+  <meta name="twitter:title" content="Chip — “What I cannot create, I do not understand.”" />
+  <meta name="twitter:description" content="Reverse engineering, CTFs, game fixes, and cyber security." />
+  <meta name="twitter:image" content="https://chip-biscuit.github.io/assets/images/social-card-v4.png?v=3" />
+
+  <!-- Favicon + Fonts -->
+  <link rel="icon" href="/assets/images/logo.png?v=2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -56,26 +54,33 @@ layout: none
       color:var(--ink);
       font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
       overflow-x:hidden;
+      padding-top: env(safe-area-inset-top); /* iOS notch safety */
     }
-    /* faint grid overlay */
+    /* faint grid */
     body::before{
-      content:""; position:fixed; inset:0;
+      content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
       background:
         linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px) 0 0/60px 60px,
         linear-gradient(0deg, rgba(255,255,255,.04) 1px, transparent 1px) 0 0/60px 60px;
       mask-image: radial-gradient(ellipse at center, rgba(0,0,0,.45) 0%, rgba(0,0,0,.05) 60%, transparent 100%);
-      pointer-events:none; z-index:0;
     }
 
-    /* matrix canvas */
+    /* Matrix canvas */
     .matrix{
-      position: fixed; inset: 0; z-index: 1;
-      opacity: .10; pointer-events:none; mix-blend-mode: screen;
+      position:fixed; inset:0; z-index:1; opacity:.10; pointer-events:none; mix-blend-mode:screen;
     }
 
-    .container{ position:relative; z-index:2; min-height:100dvh; display:grid; place-items:center; padding:48px 20px 72px; }
-    .hero{ width:min(1100px, 92vw); display:grid; grid-template-columns: 1fr 1.1fr; gap:36px; align-items:center; }
-    @media (max-width: 900px){ .hero{ grid-template-columns:1fr; text-align:center } }
+    .wrap{ position:relative; z-index:2; min-height:100dvh; display:grid; place-items:center; padding:42px 16px 72px; }
+    .hero{
+      width:min(1100px, 94vw);
+      display:grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap:28px;
+      align-items:center;
+    }
+    @media (max-width: 980px){
+      .hero{ grid-template-columns:1fr; text-align:center; gap:20px; }
+    }
 
     .card{
       background:var(--card);
@@ -84,23 +89,33 @@ layout: none
       box-shadow: 0 20px 50px rgba(0,0,0,.45),
                   0 0 80px -20px rgba(255,0,212,.35),
                   0 0 80px -20px rgba(0,234,255,.35);
-      padding:28px; backdrop-filter: blur(10px);
+      padding:24px; backdrop-filter: blur(10px);
     }
 
-    .logoWrap{ position:relative; display:grid; place-items:center; padding:18px; isolation:isolate; }
+    /* LEFT: Logo */
+    .logoWrap{ position:relative; display:grid; place-items:center; padding:16px; isolation:isolate; }
     .logoGlow::before,.logoGlow::after{
       content:""; position:absolute; inset:auto; width:70%; height:70%; border-radius:50%; filter:blur(40px); z-index:-1;
     }
     .logoGlow::before{ background:radial-gradient(closest-side, rgba(0,234,255,.65), transparent 70%); left:10%; top:10%; }
     .logoGlow::after{ background:radial-gradient(closest-side, rgba(255,0,212,.6), transparent 70%); right:10%; bottom:10%; }
-    .logo{ width:min(440px, 80vw); border-radius:18px; box-shadow: 0 10px 50px rgba(0,234,255,.25), 0 10px 50px rgba(255,0,212,.25); }
+    .logo{
+      width:min(420px, 78vw);
+      max-width:100%;
+      height:auto;
+      border-radius:18px;
+      box-shadow: 0 10px 50px rgba(0,234,255,.25), 0 10px 50px rgba(255,0,212,.25);
+    }
+    @media (max-width: 480px){
+      .logo{ width:min(360px, 86vw); }
+    }
 
+    /* RIGHT: Copy */
     .label{
-      display:inline-block; font:600 12px/1 Inter, sans-serif; letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
+      display:inline-block; font:600 11px/1 Inter, sans-serif; letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
       background:linear-gradient(90deg, rgba(0,234,255,.12), rgba(255,0,212,.12));
       border:1px solid rgba(255,255,255,.08); padding:8px 12px; border-radius:999px; margin-bottom:14px;
     }
-
     .title{
       font-size:clamp(28px, 5vw, 56px);
       font-weight:900;
@@ -112,34 +127,32 @@ layout: none
       display:inline-block;
       background-image:linear-gradient(90deg, var(--blue), var(--pink), var(--violet), var(--blue));
       background-size:300% 300%;
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
+      -webkit-background-clip:text; background-clip:text; color:transparent;
       animation:brandShift 20s linear infinite;
       margin-right:.25em;
     }
+    .title .sep{ opacity:.6; }
+    .title .tagline{ color:var(--blue); }
     @keyframes brandShift{
       0%{background-position:0% 50%}
       50%{background-position:100% 50%}
       100%{background-position:0% 50%}
     }
+    @media (prefers-reduced-motion: reduce){ .title .brand{ animation:none; } .matrix{ display:none; } }
 
     .lead{ color:#c9d4e5; font-weight:500; margin:10px 0 18px; }
-    .mono{ font-family:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color:#c7d2fe; font-size:.95rem; }
-    .mono.pretty {
-      max-width: 68ch;
-      line-height: 1.7;
-      letter-spacing: 0.01em;
-      margin: 0 auto 1rem;
-      display: block;
-    }
+    .mono{ font-family:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color:#c7d2fe; font-size:.96rem; }
+    .mono.pretty{ max-width:68ch; line-height:1.7; letter-spacing:.01em; margin:0 auto 1rem; display:block; }
+    @media (min-width: 981px){ .mono.pretty{ margin:0 0 1rem 0; } }
 
     .actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; justify-content:center; }
+    @media (min-width: 981px){ .actions{ justify-content:flex-start; } }
     .btn{
       --pad:12px 16px; display:inline-flex; align-items:center; gap:10px; padding:var(--pad); border-radius:12px;
       border:1px solid rgba(255,255,255,.14); text-decoration:none; color:var(--ink);
       background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
       transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+      font-weight:600;
     }
     .btn:hover{ transform:translateY(-1px); border-color: rgba(255,255,255,.28); box-shadow: 0 0 20px -6px rgba(0,234,255,.5), 0 0 20px -6px rgba(255,0,212,.5); }
     .btn.primary{
@@ -147,128 +160,117 @@ layout: none
                   radial-gradient(120% 120% at 100% 100%, rgba(255,0,212,.22), transparent 50%),
                   linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
     }
-    .btn svg{ width:18px; height:18px; opacity:.9 }
 
-    .footer{ margin-top:36px; text-align:center; color:var(--muted); font-size:.9rem; }
+    .footer{ margin-top:28px; text-align:center; color:var(--muted); font-size:.9rem; }
     .kbd{ padding:.1em .45em; border:1px solid rgba(255,255,255,.2); border-bottom-width:2px; border-radius:6px; font-size:.85em; background:rgba(255,255,255,.04); }
-
-    /* C++-style motto block */
-    .codeblock{
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 14px;
-      padding: 14px 16px;
-      margin: 8px 0 18px;
-      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: .95rem;
-      line-height: 1.6;
-      color: var(--ink);
-      position: relative;
-      overflow: auto;
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
-      text-align: left;
-    }
-    .codeblock::before{
-      content: "C++";
-      position: absolute;
-      top: 8px; right: 10px;
-      font-size: 12px;
-      color: var(--muted);
-      border: 1px solid rgba(255,255,255,.14);
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.04);
-    }
-    .codeblock .kw  { color: var(--blue); }
-    .codeblock .str { color: #4cf0ff; }
-    .codeblock .com { color: var(--muted); }
-    .codeblock .id  { color: #c7d2fe; }
-    .codeblock .pun { color: #9bb0c0; }
-
-    @media (prefers-reduced-motion: reduce){ .matrix{ display:none; } }
   </style>
 </head>
+
 <body>
+  <!-- Background effect -->
   <canvas id="matrix" class="matrix" aria-hidden="true"></canvas>
 
-  <div class="container">
+  <div class="wrap">
     <section class="hero">
+      <!-- LEFT: logo card -->
       <div class="card logoWrap logoGlow">
         <img class="logo" src="/assets/images/logo.png?v=2" alt="Chip logo">
       </div>
 
+      <!-- RIGHT: copy -->
       <div class="card">
-        <span class="label"> REVERSE ENGINEERING · CTF · PROGRAMMING · CYBER SECURITY · LOW LEVEL · TINKERING </span>
+        <span class="label">REVERSE ENGINEERING · CTF · PROGRAMMING · CYBER SECURITY · LOW LEVEL · DLLS</span>
 
-        <h1 class="title" style="margin-bottom:10px">
-          <span class="brand">Chip</span>
+        <h1 class="title">
+          <span class="brand">Chip Biscuit</span>
+          <span class="sep">—</span>
+          <span class="tagline">breaking things to understand them.</span>
         </h1>
 
-        <pre class="codeblock" aria-label="Feynman motto in C++ style"><code>
-<span class="com">// Richard Feynman</span>
-<span class="kw">constexpr</span> <span class="kw">auto</span> <span class="id">motto</span> <span class="pun">=</span> <span class="str">"What I cannot create, I do not understand."</span><span class="pun">;</span>
-</code></pre>
-
-        <p class="mono pretty">
-          Hey, I’m Chip. I’ve always been fascinated by how things work—whether it’s technology, science, computers, or electricity.
-          Taking things apart to truly understand their inner workings isn’t just a hobby for me—it’s who I am.
+        <p class="lead">
+          DirectX wrappers, game patches, cybersecurity and reverse-engineering write-ups. Flags redacted, lessons shared.
         </p>
 
         <p class="mono pretty">
-          Here you’ll find my write-ups on <strong>reverse engineering</strong>, <strong>tinkering</strong>, <strong>CTFs</strong>, <strong>OS setups</strong>, and everything in between.
-          Join me on a journey through the world of Chip—where curiosity, creativity, and code collide.
+          C/C++ · x86 asm · Hex · Binary · Steganography · Cryptography · IDA · Cheat Engine (for science) · Linux ·
+          Ethical hacking · Fixing nostalgic games · Breaking things to understand them.
         </p>
 
         <div class="actions">
-          <a class="btn primary" href="/about/">About Me</a>
-          <a class="btn" href="/writeups/">Write-ups</a>
+          <a class="btn primary" href="/writeups/">Write-ups</a>
+          <a class="btn" href="/about/">About</a>
           <a class="btn" href="https://github.com/Chip-Biscuit" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn" href="/Chip_Biscuit_Resume.pdf">Résumé (PDF)</a>
         </div>
 
         <p class="footer">
-          Thanks for visiting — and remember: <em>the pleasure is in finding things out.</em>
+          Tip: press <span class="kbd">/</span> to search on GitHub — or jump to <a href="/writeups/" class="btn-link">Write-ups</a>.
         </p>
       </div>
     </section>
   </div>
 
-  <!-- Matrix rain -->
+  <!-- Matrix rain script (mobile-friendly) -->
   <script>
   (function(){
     const c = document.getElementById('matrix'); if(!c) return;
     const ctx = c.getContext('2d');
-    const TRAIL_FADE=0.10, BASE_SPEED=0.08, VARIANCE=0.10;
-    const COLOR_TRAIL='#00ff88', COLOR_HEAD='#e6fff0', STROKE_HEAD='rgba(191,255,217,0.6)', SHADOW='#00cc77';
-    let fontSize=16, columns, drops, speeds, w, h, rafId;
+    const TRAIL_FADE = 0.10, BASE_SPEED = 0.08, VARIANCE = 0.10;
+    const COLOR_TRAIL = '#00ff88', COLOR_HEAD = '#e6fff0', STROKE_HEAD = 'rgba(191,255,217,0.6)', SHADOW = '#00cc77';
+    let fontSize = 16, columns, drops, speeds, w, h, rafId;
 
     function resize(){
-      const dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1));
-      w=c.clientWidth=innerWidth; h=c.clientHeight=innerHeight;
-      c.width=Math.floor(w*dpr); c.height=Math.floor(h*dpr);
-      ctx.setTransform(dpr,0,0,dpr,0,0);
-      fontSize=Math.max(14,Math.min(22,Math.round(w/80)));
-      ctx.font=`600 ${fontSize}px JetBrains Mono, ui-monospace, monospace`;
-      columns=Math.floor(w/fontSize);
-      drops=new Array(columns).fill(0).map(()=>Math.random()*-20);
-      speeds=new Array(columns).fill(0).map(()=>BASE_SPEED+(Math.random()*2-1)*VARIANCE);
+      const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      w = c.clientWidth = innerWidth;
+      h = c.clientHeight = innerHeight;
+      c.width  = Math.floor(w * dpr);
+      c.height = Math.floor(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      fontSize = Math.max(14, Math.min(22, Math.round(w / 80)));
+      ctx.font = `600 ${fontSize}px JetBrains Mono, ui-monospace, monospace`;
+      ctx.lineJoin = 'round';
+
+      columns = Math.floor(w / fontSize);
+      drops  = new Array(columns).fill(0).map(() => Math.random() * -20);
+      speeds = new Array(columns).fill(0).map(() => BASE_SPEED + (Math.random()*2 - 1) * VARIANCE);
     }
 
     function tick(){
-      ctx.fillStyle=`rgba(0,0,0,${TRAIL_FADE})`; ctx.fillRect(0,0,w,h);
-      ctx.shadowColor=SHADOW;
-      for(let i=0;i<columns;i++){
-        const x=i*fontSize,y=drops[i]*fontSize;
-        ctx.fillStyle=COLOR_TRAIL; ctx.shadowBlur=8; ctx.fillText('0',x,y);
-        ctx.shadowBlur=12; ctx.fillStyle=COLOR_HEAD; ctx.fillText('1',x,y-fontSize);
-        ctx.strokeStyle=STROKE_HEAD; ctx.lineWidth=0.7; ctx.strokeText('1',x,y-fontSize);
-        if(y>h&&Math.random()>0.985)drops[i]=Math.random()*-20;
-        drops[i]+=speeds[i];
+      ctx.fillStyle = `rgba(0,0,0,${TRAIL_FADE})`;
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.shadowColor = SHADOW;
+
+      for (let i = 0; i < columns; i++) {
+        const x = i * fontSize, y = drops[i] * fontSize;
+
+        ctx.fillStyle  = COLOR_TRAIL;
+        ctx.shadowBlur = 8;
+        ctx.fillText('0', x, y);
+
+        ctx.shadowBlur  = 12;
+        ctx.fillStyle   = COLOR_HEAD;
+        ctx.fillText('1', x, y - fontSize);
+        ctx.strokeStyle = STROKE_HEAD;
+        ctx.lineWidth   = 0.7;
+        ctx.strokeText('1', x, y - fontSize);
+
+        if (y > h && Math.random() > 0.985) drops[i] = Math.random() * -20;
+        drops[i] += speeds[i];
       }
-      rafId=requestAnimationFrame(tick);
+      rafId = requestAnimationFrame(tick);
     }
 
     resize(); tick();
-    addEventListener('resize',()=>{cancelAnimationFrame(rafId);resize();tick();},{passive:true});
+    addEventListener('resize', () => { cancelAnimationFrame(rafId); resize(); tick(); }, { passive:true });
+
+    // Reduce motion for users who prefer it (also helps on low-end mobiles)
+    const mq = matchMedia('(prefers-reduced-motion: reduce)');
+    mq.addEventListener?.('change', e=>{
+      if(e.matches){ cancelAnimationFrame(rafId); ctx.clearRect(0,0,w,h); c.style.display='none'; }
+      else { c.style.display='block'; resize(); tick(); }
+    });
   })();
   </script>
 </body>
