@@ -309,21 +309,22 @@ layout: none
     { a: "Alan Turing", t: "We can only see a short distance ahead, but we can see plenty there that needs to be done." }
   ];
 
-  const esc = s => s
-    .replace(/&/g,"&amp;").replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 
   const idx = (crypto && crypto.getRandomValues)
     ? crypto.getRandomValues(new Uint32Array(1))[0] % QUOTES.length
     : Math.floor(Math.random()*QUOTES.length);
 
   const q = QUOTES[idx];
-  const html =
+
+  const header = `<span class="id">#include</span> <span class="id">&lt;cstdio&gt;</span>\n`;
+  const body =
     `<span class="com">// ${q.a}</span>\n` +
-    `<span class="id">puts</span><span class="pun">(</span><span class="str">"${esc(q.t)}"</span><span class="pun">);</span>`;
+    `<span class="id">std</span><span class="pun">::</span><span class="id">puts</span>` +
+    `<span class="pun">(</span><span class="str">"${esc(q.t)}"</span><span class="pun">);</span>`;
 
   const el = document.getElementById("quoteCode");
-  if (el) el.innerHTML = html;
+  if (el) el.innerHTML = header + body;
 })();
 </script>
 </body>
