@@ -294,37 +294,37 @@ layout: none
   </script>
 
   <!-- Quote picker -->
-  <script>
-  (function () {
-    // Curated, attribution-safe set (mix of science/engineering classics)
-    const QUOTES = [
-      { a: "Richard Feynman", t: ("What I cannot create, I do not understand.") },
-      { a: "Albert Einstein", t: ("The important thing is not to stop questioning.") },
-      { a: "Grace Hopper", t: ("One accurate measurement is worth a thousand expert opinions.") },
-      { a: "Donald Knuth", t: ("Premature optimization is the root of all evil.") },
-      { a: "Edsger W. Dijkstra", t: ("Simplicity is prerequisite for reliability.") },
-      { a: "Claude Shannon", t: ("Information is the resolution of uncertainty.") },
-      { a: "Brian Kernighan", t: ("The only way to learn a new programming language is by writing programs in it.") },
-      { a: "Harold Abelson", t: ("Programs must be written for people to read, and only incidentally for machines to execute.") },
-      { a: "Alan Turing", t: ("Those who can imagine anything, can create the impossible.") },
-      { a: "Alan Turing", t: ("We can only see a short distance ahead, but we can see plenty there that needs to be done.") }
-    ];
+<script>
+(function () {
+  const QUOTES = [
+    { a: "Richard Feynman", t: "What I cannot create, I do not understand." },
+    { a: "Albert Einstein", t: "The important thing is not to stop questioning." },
+    { a: "Grace Hopper", t: "One accurate measurement is worth a thousand expert opinions." },
+    { a: "Donald Knuth", t: "Premature optimization is the root of all evil." },
+    { a: "Edsger W. Dijkstra", t: "Simplicity is prerequisite for reliability." },
+    { a: "Claude Shannon", t: "Information is the resolution of uncertainty." },
+    { a: "Brian Kernighan", t: "The only way to learn a new programming language is by writing programs in it." },
+    { a: "Harold Abelson", t: "Programs must be written for people to read, and only incidentally for machines to execute." },
+    { a: "Alan Turing", t: "Those who can imagine anything, can create the impossible." },
+    { a: "Alan Turing", t: "We can only see a short distance ahead, but we can see plenty there that needs to be done." }
+  ];
 
-    // Pick a quote each visit (page load). Use crypto when available.
-    const pick = (n) => QUOTES[n % QUOTES.length];
-    let idx = Math.floor((window.crypto && crypto.getRandomValues)
-               ? crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296 * QUOTES.length
-               : Math.random() * QUOTES.length);
-    const q = pick(idx);
+  const esc = s => s
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 
-    // Render as your styled C++-ish snippet
-    const html =
-      `<span class="com">// ${q.a}</span>\n` +
-      `<span class="kw">printf</span>\n`;
+  const idx = (crypto && crypto.getRandomValues)
+    ? crypto.getRandomValues(new Uint32Array(1))[0] % QUOTES.length
+    : Math.floor(Math.random()*QUOTES.length);
 
-    const el = document.getElementById("quoteCode");
-    if (el) el.innerHTML = html;
-  })();
-  </script>
+  const q = QUOTES[idx];
+  const html =
+    `<span class="com">// ${q.a}</span>\n` +
+    `<span class="id">puts</span><span class="pun">(</span><span class="str">"${esc(q.t)}"</span><span class="pun">);</span>`;
+
+  const el = document.getElementById("quoteCode");
+  if (el) el.innerHTML = html;
+})();
+</script>
 </body>
 </html>
