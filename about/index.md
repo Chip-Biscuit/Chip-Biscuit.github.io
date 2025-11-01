@@ -22,7 +22,8 @@ I spend my time breaking things (ethically) to understand them, restoring old Wi
 - Developing tools, software, and hardware that simply get the job done
 - play around with rasbery pi and arduinos make automation scripts or pi holes all sorts of fun little projects.
 - play around in game engines, unreal, godot, programs such as blender or photoshop, davinci resolve, make content for youtube or tiktok, make game mods, the world is endless.
-- A jack of all trades is a master of none, but oftentimes better than a master of one.  
+- A jack of all trades is a master of none, but oftentimes better than a master of one.
+  
 ---
 
 ## 🌐 Projects & Communities
