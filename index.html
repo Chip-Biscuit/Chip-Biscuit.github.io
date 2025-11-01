@@ -298,16 +298,16 @@ layout: none
   (function () {
     // Curated, attribution-safe set (mix of science/engineering classics)
     const QUOTES = [
-      { a: "Richard Feynman", t: "What I cannot create, I do not understand." },
-      { a: "Albert Einstein", t: "The important thing is not to stop questioning." },
-      { a: "Grace Hopper", t: "One accurate measurement is worth a thousand expert opinions." },
-      { a: "Donald Knuth", t: "Premature optimization is the root of all evil." },
-      { a: "Edsger W. Dijkstra", t: "Simplicity is prerequisite for reliability." },
-      { a: "Claude Shannon", t: "Information is the resolution of uncertainty." },
-      { a: "Brian Kernighan", t: "The only way to learn a new programming language is by writing programs in it." },
-      { a: "Harold Abelson", t: "Programs must be written for people to read, and only incidentally for machines to execute." },
-      { a: "Alan Turing", t: "Those who can imagine anything, can create the impossible." },
-      { a: "Alan Turing", t: "We can only see a short distance ahead, but we can see plenty there that needs to be done." }
+      { a: "Richard Feynman", t: ("What I cannot create, I do not understand.") },
+      { a: "Albert Einstein", t: ("The important thing is not to stop questioning.") },
+      { a: "Grace Hopper", t: ("One accurate measurement is worth a thousand expert opinions.") },
+      { a: "Donald Knuth", t: ("Premature optimization is the root of all evil.") },
+      { a: "Edsger W. Dijkstra", t: ("Simplicity is prerequisite for reliability.") },
+      { a: "Claude Shannon", t: ("Information is the resolution of uncertainty.") },
+      { a: "Brian Kernighan", t: ("The only way to learn a new programming language is by writing programs in it.") },
+      { a: "Harold Abelson", t: ("Programs must be written for people to read, and only incidentally for machines to execute.") },
+      { a: "Alan Turing", t: ("Those who can imagine anything, can create the impossible.") },
+      { a: "Alan Turing", t: ("We can only see a short distance ahead, but we can see plenty there that needs to be done.") }
     ];
 
     // Pick a quote each visit (page load). Use crypto when available.
@@ -320,9 +320,7 @@ layout: none
     // Render as your styled C++-ish snippet
     const html =
       `<span class="com">// ${q.a}</span>\n` +
-      `<span class="kw">volatile</span> <span class="kw">std::string</span> ` +
-      `<span class="id">quote</span> <span class="pun">=</span>\n` +
-      `    <span class="str">"${q.t}"</span><span class="pun">;</span>\n`;
+      `<span class="kw">printf</span>\n`;
 
     const el = document.getElementById("quoteCode");
     if (el) el.innerHTML = html;
