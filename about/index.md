@@ -7,7 +7,7 @@ summary: "Reverse Engineering · CTFs · Game Fixes · Cyber Security"
 # 👋 About Me
 
 Hey, I’m **Chip** — a Tech enthusiast, security tinkerer, nostalgic game patch creator, Reverse Engineer, Programmer and all-around tech explorer.  
-I spend my time breaking things (ethically) to understand them, restoring old Windows titles, writing DLL wrappers, and diving deep into system-level programming. i love learning. 
+I spend my time breaking things (ethically) to understand them, restoring old Windows titles, writing DLL wrappers, and diving deep into system-level programming. I love learning. 
 The harder and more impossible the problem looks... the more i want to solve it.
 
 ---
