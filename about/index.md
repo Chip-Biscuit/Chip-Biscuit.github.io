@@ -81,7 +81,7 @@ I’m passionate about creating tech spaces that value different ways of thinkin
 `Direct3D 8/9` · `MinHook` · `DXWrapper` · `WinMM` · `DInput`  
 
 **Security, Forensics & Crypto**
-`various linux tools` · `linux command line` · `cryptography & cipher tooling` · `steganography tools`  
+ `various linux tools` · `linux command line` · `cryptography & cipher tooling` · `steganography tools`  
 
 ---
 
