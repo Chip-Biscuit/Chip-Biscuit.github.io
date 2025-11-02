@@ -8,6 +8,7 @@ summary: "Reverse Engineering · CTFs · Game Fixes · Cyber Security"
 
 Hey, I’m **Chip** — a Tech enthusiast, security tinkerer, nostalgic game patch creator, Reverse Engineer, Programmer and all-around tech explorer.  
 I spend my time breaking things (ethically) to understand them, restoring old Windows titles, writing Direct3D wrappers, and diving deep into system-level programming.
+The harder and more impossible the problem looks... the more i want to solve it.
 
 ---
 
@@ -20,6 +21,7 @@ I spend my time breaking things (ethically) to understand them, restoring old Wi
 - Cyber security and ethical hacking  
 - Building inclusive tech spaces like **ByteMatrix** & **FixEnhancers**  
 - Developing tools, software, and hardware that simply get the job done
+- Former fully qualfied electrician with Diploma Installing Electrotechnical Systems and Equipment (BSE).
 - play around with rasbery pi and arduinos make automation scripts or pi holes all sorts of fun little projects.
 - play around in game engines, unreal, godot, programs such as blender or photoshop, davinci resolve, make content for youtube or tiktok, make game mods, the world is endless.
 - A jack of all trades is a master of none, but oftentimes better than a master of one.
