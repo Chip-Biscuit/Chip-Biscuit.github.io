@@ -37,7 +37,7 @@ I love learning — the harder and more impossible a problem looks, the more I w
 ---
 
 ## 🌐 Projects
-- [Write-ups](/writeups/) — challenges, labs, and OS setup guides  
+- [Write-ups](/writeups/) — challenges, labs, Reverse Engineering, Security, OS setup guides and more.
 - [GitHub](https://github.com/Chip-Biscuit) — full source repositories  
 
 ---
