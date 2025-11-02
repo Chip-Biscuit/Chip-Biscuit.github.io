@@ -29,7 +29,7 @@ I spend my time breaking things (ethically) to understand them, restoring old Wi
 
 ---
 
-## 🌐 Projects & Communities
+## 🌐 Projects
 
 You can explore my work here:  
 - [Write-ups](/writeups/) — challenges, labs, and OS setup guides  
