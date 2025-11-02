@@ -1,13 +1,21 @@
 ---
 title: "About Chip Biscuit"
 layout: default
-summary: "Reverse Engineering · CTFs · Game Fixes · Cyber Security"
+summary: "Reverse Engineering · Offensive Security · Systems Programming · Hardware & Software Tooling"
 ---
 
 # 👋 About Me
 
-Hey, I’m **Chip** — a tech enthusiast, security tinkerer, nostalgic game patch creator, reverse engineer, programmer, and all-around tech explorer.  
-I spend my time breaking things (ethically) to understand them, restoring old Windows titles, writing DLL wrappers, and diving deep into system-level programming. I love learning — the harder and more impossible a problem looks, the more I want to solve it.
+Hey, I’m **Chip** — a tech enthusiast, security tinkerer, nostalgic game-patch creator, reverse engineer, programmer, and all-around tech explorer.  
+I spend my time breaking things (ethically) to understand them, restoring old Windows titles, writing DLL wrappers, and diving deep into system-level programming.  
+I love learning — the harder and more impossible a problem looks, the more I want to solve it.
+
+---
+
+## ⚡ Core Focus
+*Reverse Engineering · Offensive Security · Systems Programming · Hardware & Software Tooling*
+
+> *Exploring systems from silicon to software — building tools, breaking barriers, and securing what matters.*
 
 ---
 
@@ -20,18 +28,15 @@ I spend my time breaking things (ethically) to understand them, restoring old Wi
 - Cyber security & ethical hacking  
 - Building inclusive tech spaces like **ByteMatrix** & **FixEnhancers**  
 - Developing tools, software, and hardware that simply get the job done  
-- Former fully-qualified electrician with a Diploma in Installing Electrotechnical Systems and Equipment (BSE)  
-- Experimenting with Raspberry Pi and Arduino — automation scripts, Pi-holes, and all sorts of fun little projects  
-- Exploring game engines (Unreal, Godot), creative programs (Blender, Photoshop, DaVinci Resolve), and making content for YouTube or TikTok  
-- Modding old games and bringing forgotten code back to life  
+- Former fully qualified electrician with a Diploma in Installing Electrotechnical Systems and Equipment (BSE)  
+- Experimenting with Raspberry Pi, Arduino, and automation projects — Pi-holes, IoT, and other fun setups  
+- Exploring Unreal, Godot, Blender, Photoshop, and DaVinci Resolve — making mods and creative content for YouTube or TikTok  
 
 > *“A jack of all trades is a master of none, but oftentimes better than a master of one.”*
 
 ---
 
 ## 🌐 Projects
-
-You can explore my work here:  
 - [Write-ups](/writeups/) — challenges, labs, and OS setup guides  
 - [GitHub](https://github.com/Chip-Biscuit) — full source repositories  
 
@@ -51,6 +56,14 @@ I’m passionate about creating tech spaces that value different ways of thinkin
 
 ---
 
+## 🧭 Values
+- Curiosity drives mastery  
+- Ethics above shortcuts  
+- Clarity over complexity  
+- Learn, teach, and give back to the community  
+
+---
+
 ## 🛠️ Tech Stack & Tools
 
 **Core Languages**  
@@ -60,7 +73,7 @@ I’m passionate about creating tech spaces that value different ways of thinkin
 `Linux` (Kali · BlackArch · Mint) · `Windows` · `WSL` · `Command Line`  
 
 **Reverse Engineering & Debugging**  
-`IDA` · `Ghidra` · `Cheat Engine` · `x64dbg` · `OllyDbg` · `PE-bear`  
+`IDA` · `Ghidra` · `Cheat Engine` · `x64dbg` · `OllyDbg` · 
 
 **Game & System-Level Work**  
 `Direct3D 8/9` · `MinHook` · `DXWrapper` · `WinMM` · `DInput`  
@@ -75,7 +88,6 @@ I’m passionate about creating tech spaces that value different ways of thinkin
 ---
 
 ## 🕹️ Fun Fact
-
 I still love debugging early-2000s PC games just to bring them back to life — there’s something magical about watching old code run perfectly on modern hardware.
 
 ---
