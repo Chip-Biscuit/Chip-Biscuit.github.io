@@ -6,9 +6,8 @@ summary: "Reverse Engineering · CTFs · Game Fixes · Cyber Security"
 
 # 👋 About Me
 
-Hey, I’m **Chip** — a Tech enthusiast, security tinkerer, nostalgic game patch creator, Reverse Engineer, Programmer and all-around tech explorer.  
-I spend my time breaking things (ethically) to understand them, restoring old Windows titles, writing DLL wrappers, and diving deep into system-level programming. I love learning. 
-The harder and more impossible the problem looks... the more i want to solve it.
+Hey, I’m **Chip** — a tech enthusiast, security tinkerer, nostalgic game patch creator, reverse engineer, programmer, and all-around tech explorer.  
+I spend my time breaking things (ethically) to understand them, restoring old Windows titles, writing DLL wrappers, and diving deep into system-level programming. I love learning — the harder and more impossible a problem looks, the more I want to solve it.
 
 ---
 
@@ -18,14 +17,16 @@ The harder and more impossible the problem looks... the more i want to solve it.
 - DirectX (D3D8/9) compatibility wrappers  
 - Memory trainers & pointer-chain tools  
 - Steganography, cryptography & CTF challenges  
-- Cyber security and ethical hacking  
+- Cyber security & ethical hacking  
 - Building inclusive tech spaces like **ByteMatrix** & **FixEnhancers**  
-- Developing tools, software, and hardware that simply get the job done
-- Former fully qualfied electrician with Diploma Installing Electrotechnical Systems and Equipment (BSE).
-- play around with rasbery pi and arduinos make automation scripts or pi holes all sorts of fun little projects.
-- play around in game engines, unreal, godot, programs such as blender or photoshop, davinci resolve, make content for youtube or tiktok, make game mods, the world is endless.
-- A jack of all trades is a master of none, but oftentimes better than a master of one.
-  
+- Developing tools, software, and hardware that simply get the job done  
+- Former fully-qualified electrician with a Diploma in Installing Electrotechnical Systems and Equipment (BSE)  
+- Experimenting with Raspberry Pi and Arduino — automation scripts, Pi-holes, and all sorts of fun little projects  
+- Exploring game engines (Unreal, Godot), creative programs (Blender, Photoshop, DaVinci Resolve), and making content for YouTube or TikTok  
+- Modding old games and bringing forgotten code back to life  
+
+> *“A jack of all trades is a master of none, but oftentimes better than a master of one.”*
+
 ---
 
 ## 🌐 Projects & Communities
@@ -40,13 +41,15 @@ You can explore my work here:
 
 > “Breaking things to understand them.”  
 >
-> Curiosity is the core of progress — every bug, crash, and hex dump is an opportunity to learn something new.
+> Curiosity is the core of progress — every bug, crash, and hex dump is an opportunity to learn something new.  
 >
-> Nothing is impossible.. its more a question of how long will it take to brek it..
+> Nothing is impossible… it’s more a question of how long it will take to break it.
 
 <p style="font-size:0.9em; color:#9aa4b2; margin-top:0.5em;">
 I’m passionate about creating tech spaces that value different ways of thinking — <em>neurodivergent minds often see systems and patterns others miss.</em>
 </p>
+
+---
 
 ## 🛠️ Tech Stack & Tools
 
