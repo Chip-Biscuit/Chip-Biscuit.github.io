@@ -86,7 +86,7 @@ I’m passionate about creating tech spaces that value different ways of thinkin
 ---
 
 💬 **Discord:** `_._chip_._` — send a message request and I’ll get back to you when I can.  
-
+📩 **Email:** `chip_buscuit@proton.me` — Please feel free to drop me an email and i will get back to you when i can. 
 ---
 
 ## 🕹️ Fun Fact
