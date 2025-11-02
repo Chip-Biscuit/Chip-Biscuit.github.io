@@ -41,6 +41,8 @@ You can explore my work here:
 > “Breaking things to understand them.”  
 >
 > Curiosity is the core of progress — every bug, crash, and hex dump is an opportunity to learn something new.
+>
+> Nothing is impossible.. its more a question of how long will it take to brek it..
 
 <p style="font-size:0.9em; color:#9aa4b2; margin-top:0.5em;">
 I’m passionate about creating tech spaces that value different ways of thinking — <em>neurodivergent minds often see systems and patterns others miss.</em>
