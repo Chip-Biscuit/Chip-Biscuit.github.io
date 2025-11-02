@@ -67,20 +67,27 @@ I’m passionate about creating tech spaces that value different ways of thinkin
 ## 🛠️ Tech Stack & Tools
 
 **Core Languages**  
+
 `C` · `C++` · `x86 Assembly` · `Python`  
 
 **Operating Systems & Environments**  
+
 `Linux` (Kali · BlackArch · Mint) · `Windows` · `WSL` · `Command Line`  
 
 **Reverse Engineering & Debugging**  
+
 `IDA` · `Ghidra` · `Cheat Engine` · `x64dbg` · `OllyDbg` · `Detect It Easy (DiE)`  
+
 **Crash Dumps & Forensics**  
+
 `ProcDump` · `WinDbg` · `Visual Studio Debugger` · `Process Monitor (ProcMon)`  
 
 **Game & System-Level Work**  
+
 `Direct3D 8/9` · `MinHook` · `DXWrapper` · `WinMM` · `DInput`  
 
 **Security, Forensics & Crypto**
+
 `various linux tools` · `linux command line` · `cryptography & cipher tooling` · `steganography tools`  
 
 ---
