@@ -80,8 +80,8 @@ I’m passionate about creating tech spaces that value different ways of thinkin
 **Game & System-Level Work**  
 `Direct3D 8/9` · `MinHook` · `DXWrapper` · `WinMM` · `DInput`  
 
-**Security, Forensics & Crypto**  
-`Burp Suite` · `nmap` · `Wireshark` · `hashcat` · `cryptography & cipher tooling` · `steganography tools`  
+**Security, Forensics & Crypto**
+`nmap` · `various linux tools` · `linux command line` · `cryptography & cipher tooling` · `steganography tools`  
 
 ---
 
